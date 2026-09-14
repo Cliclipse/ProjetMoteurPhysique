@@ -60,6 +60,7 @@ class Vector {
   Vector Normalised(){
     return this.Divide(this.Norme());
   }
+}
   
   
 
