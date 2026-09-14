@@ -12,6 +12,11 @@ class EquaPosition {
        K = newK;
     }
     
+    EquaAcceleration Derivation(){
+    return EquaVitesse(A); 
+  } 
+    
+    
     Vector GetPosition(float time){
       return  A*t*t + B*t + K;
     }
@@ -22,7 +27,7 @@ class EquaPosition {
       return A.y / B.y;
     }
 
-
+   
   
 }
   
