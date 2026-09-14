@@ -28,6 +28,13 @@ class Vector {
     z *= coef;
   }
   
+  // Division avec un coef
+  void Divide(float coef) {
+    x /= coef;
+    y /= coef;
+    z /= coef;
+  }
+  
   //Produit Scalaire
   float ProdScalaire(Vector vector){
     float result = this.x * vector.x + this.y * vector.y + this.z * vector.z;
@@ -48,6 +55,12 @@ class Vector {
     result = sqrt(this.x * this.x + this.y * this.y + this.z * this.z); // A test je sais pas si sqrt est natif
     return result; 
 }
+
+  //Normaliser (jsp si ce sera utile)
+  Vector Normalised(){
+    return this.Divide(this.Norme());
+  }
+  
   
 
   
