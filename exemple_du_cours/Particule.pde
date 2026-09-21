@@ -1,50 +1,51 @@
-Eye e1, e2, e3;
+Particule p;
 
 void setup() {
-size(640, 360);
-noStroke();
-e1 = new Eye( 250, 16, 120);
-e2 = new Eye( 164, 185, 80);
-e3 = new Eye( 420, 230, 220);
+  size(640, 360);
+  noStroke();
+  p = new Particule(10.0,1.0);
 }
 
-/*
+
 void draw() {
-background(102);
-e1.update(mouseX, mouseY);
-e2.update(mouseX, mouseY);
-e3.update(mouseX, mouseY);
-e1.display();
-e2.display();
-e3.display();
+  background(102);
+  p.update(mouseX, mouseY);
+  p.display();
 }
-*/
 
-class Eye {
-  int x, y;
-  int size;
-  float angle =0.0;
+
+class Particule {
+  Vecteur3D Position;
+  Vecteur3D Vitesse;
+  Vecteur3D Acceleration;
+  float mass;
   
-  Eye(int tx , int ty , int ts){
-    x = tx;
-    y = ty;
-    size = ts;
+  Particule(float mass, float coefAcceleration){
+    this.mass = mass;
+    Position = new Vecteur3D(0,0,0);
+    Vitesse = new Vecteur3D(0,0,0);
+    Acceleration = new Vecteur3D(1,1,1);
+    Acceleration.Multiply(coefAcceleration);
   }
   
+  float getInvMass(){
+    return(1/mass);
+  }
+  
+  void setMass(float invMass){
+    mass = 1/invMass;
+  }
   
   void update(int mx, int my) {
-    angle = atan2(my-y, mx-x);
+    Position = new Vecteur3D(mx,my,0);
   }
  
   
   void display() {
   pushMatrix();
-  translate(x, y);
+  translate(Position.x, Position.y);
   fill(255);
-  ellipse(0, 0, size, size);
-  rotate(angle);
-  fill(153, 204, 0);
-  ellipse(size/4, 0, size/2, size/2);
+  ellipse(0, 0, 10, 10);
   popMatrix();
   }
 }

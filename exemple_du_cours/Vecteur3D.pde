@@ -50,14 +50,6 @@ class Vecteur3D {
     return result;
   }
   
-  Vecteur3D ProdComposantes(Vecteur3D vector){
-    Vecteur3D result = new Vecteur3D(0,0,0);
-    result.x = x*vector.x;
-    result.y = y*vector.y;
-    result.z = z*vector.z;
-    return result;
-  }
-  
   //Norme
   float NormeCarre(){
     float result = this.x * this.x + this.y * this.y + this.z * this.z; // A test je sais pas si sqrt est natif
