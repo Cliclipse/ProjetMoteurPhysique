@@ -1,17 +1,3 @@
-Vecteur3D v1;
-
-void setup(){
-  size(640, 360);
-  noStroke();
-  v1 = new Vecteur3D(0,0,0);
-}
-
-void draw(){
-  background(102);
-  v1.update(mouseX, mouseY);
-  v1.display();
-}
-
 class Vecteur3D {
   float x, y, z;
   
@@ -57,7 +43,7 @@ class Vecteur3D {
   
    //Produit Vectoriel
   Vecteur3D ProdVectoriel(Vecteur3D vector){
-    Vector result;
+    Vecteur3D result = new Vecteur3D(0,0,0);
     result.x = this.y * vector.z - vector.y - this.z;
     result.y = this.z * vector.x - vector.z - this.x;
     result.x = this.x * vector.y - vector.x - this.y;
@@ -66,14 +52,14 @@ class Vecteur3D {
   
   //Norme
   float Norme(){
-    result = 0;
+    float result = 1;
     //result = sqrt(this.x * this.x + this.y * this.y + this.z * this.z); // A test je sais pas si sqrt est natif
     return result; 
   }
 
   //Normaliser (jsp si ce sera utile)
-  Vecteur3D Normalised(){
-    return this.Divide(this.Norme());
+  void Normalised(){
+    this.Divide(this.Norme());
   }
   
   void update(float mx, float my){

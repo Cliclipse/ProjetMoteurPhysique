@@ -15,6 +15,4 @@ class EquaAcceleration{
   EquaVitesse Integration(Vector conditionInitiale){
     return EquaVitesse(A ,  conditionInitiale); 
   } 
-  
-  
-  
+}
