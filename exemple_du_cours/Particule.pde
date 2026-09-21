@@ -9,7 +9,7 @@ void setup() {
 
 void draw() {
   background(102);
-  p.update(mouseX, mouseY);
+  p.update(1);
   p.display();
 }
 
@@ -22,9 +22,9 @@ class Particule {
   
   Particule(float mass, float coefAcceleration){
     this.mass = mass;
-    Position = new Vecteur3D(0,0,0);
+    Position = new Vecteur3D(0,100,0);
     Vitesse = new Vecteur3D(0,0,0);
-    Acceleration = new Vecteur3D(1,1,1);
+    Acceleration = new Vecteur3D(1,0,0);
     Acceleration.Multiply(coefAcceleration);
   }
   
@@ -36,8 +36,17 @@ class Particule {
     mass = 1/invMass;
   }
   
-  void update(int mx, int my) {
-    Position = new Vecteur3D(mx,my,0);
+  void Integrer(float temps){
+    Vitesse.x += Acceleration.x*temps;
+    Vitesse.y += Acceleration.y*temps;
+    Vitesse.z += Acceleration.z*temps;
+    Position.x += Vitesse.x*temps;
+    Position.y += Vitesse.y*temps;
+    Position.z += Vitesse.z*temps;
+  }
+  
+  void update(float temps) {
+    Integrer(temps);
   }
  
   
