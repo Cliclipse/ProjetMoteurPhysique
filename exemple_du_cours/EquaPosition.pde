@@ -18,7 +18,7 @@ class EquaPosition {
     
     
     Vector GetPosition(float time){
-      return  A*t*t + B*t + K;
+      return  A*time*time + B*time + K;
     }
     
     //Calcul t lorsque y est à son maximum
