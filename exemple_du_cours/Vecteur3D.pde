@@ -1,7 +1,7 @@
 class Vecteur3D {
   float x, y, z;
   
-  Vecteur3D(int tx , int ty , int tz){
+  Vecteur3D(float tx , float ty , float tz){ // coordonnées mises e float
     x = tx;
     y = ty;
     z = tz;
@@ -44,9 +44,9 @@ class Vecteur3D {
    //Produit Vectoriel
   Vecteur3D ProdVectoriel(Vecteur3D vector){
     Vecteur3D result = new Vecteur3D(0,0,0);
-    result.x = this.y * vector.z - vector.y - this.z;
-    result.y = this.z * vector.x - vector.z - this.x;
-    result.x = this.x * vector.y - vector.x - this.y;
+    result.x = this.y * vector.z - vector.y * this.z; // vector.y * this.zet pas - 
+    result.y = this.z * vector.x - vector.z * this.x;
+    result.z = this.x * vector.y - vector.x * this.y; // result.x -> result.z
     return result;
   }
   
@@ -62,6 +62,8 @@ class Vecteur3D {
 
   //Normaliser (jsp si ce sera utile)
   void Normalised(){
-    this.Divide(this.Norme());
+    if (this.Norme() != 0){
+      this.Divide(this.Norme());
+    }
   }
 }
