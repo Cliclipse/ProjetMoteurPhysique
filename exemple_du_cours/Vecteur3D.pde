@@ -44,7 +44,7 @@ class Vecteur3D {
    //Produit Vectoriel
   Vecteur3D ProdVectoriel(Vecteur3D vector){
     Vecteur3D result = new Vecteur3D(0,0,0);
-    result.x = this.y * vector.z - vector.y * this.z; // vector.y * this.zet pas - 
+    result.x = this.y * vector.z - vector.y * this.z; // vector.y * this.z et pas - 
     result.y = this.z * vector.x - vector.z * this.x;
     result.z = this.x * vector.y - vector.x * this.y; // result.x -> result.z
     return result;

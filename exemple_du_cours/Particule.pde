@@ -31,12 +31,14 @@ class Particule {
   Vecteur3D Vitesse;
   Vecteur3D Acceleration;
   float mass;
+  float rayon = 5;
+  int couleur = color(0);
   
   Particule(float mass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){ // vitesse et position de base ajoutée
     this.mass = mass;
     Position = posInit;
     Vitesse = vitesseInit;
-    Acceleration = force;
+    Acceleration = new Vecteur3D(force.x, force.y, force.z);
     Acceleration.Divide(mass); // somme(force) = m*a donc a = somme(force)/m or une seule force donc a = force/m
   }
   
@@ -44,7 +46,7 @@ class Particule {
     return(1/mass);
   }
   
-  void setMass(float invMass){
+  void setInvMass(float invMass){
     mass = 1/invMass;
   }
   
@@ -65,13 +67,17 @@ class Particule {
  
   
   void display() {
-    if (0 < Position.x && Position.x < width && 0 < Position.y && Position.y < height){
-      pushMatrix();
-      translate(Position.x, Position.y, Position.z);
-      fill(0);
-      sphere(5);
-//  ellipse(0, 0, 10, 10);
-      popMatrix();
-    }
+    pushMatrix();
+    translate(Position.x, Position.y, Position.z);
+    fill(couleur);
+    sphere(rayon);
+    popMatrix();
+  }
+  
+  boolean touche(Particule autre) {
+    Vecteur3D d = new Vecteur3D(Position.x, Position.y, Position.z);
+    d.Substract(autre.Position);
+    float r = rayon + autre.rayon;
+    return d.NormeCarre() <= r*r;
   }
 }
