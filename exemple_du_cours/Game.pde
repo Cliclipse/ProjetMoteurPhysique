@@ -3,6 +3,8 @@ int bulletType = 0;
 float dt; // duree de la frame
 int timeLastFrame; //temps actuel
 float damping = 0.95;
+UI ui;
+float gravity = 9.8;
 
 void setup() {
   size(1280, 720, P3D);
@@ -10,6 +12,9 @@ void setup() {
   bullets = new ArrayList<Particule>();
   timeLastFrame = millis();
   background(102);
+  
+  ui = new UI(this);
+  ui.setupUI();
 }
 
 void mousePressed() {
@@ -19,7 +24,7 @@ void mousePressed() {
     Vecteur3D v0 = new Vecteur3D((mouseX-width*0.5) * coefVitesse,(mouseY-height*0.5) * coefVitesse,0);
     Vecteur3D pos0 = new Vecteur3D(width*0.5,height*0.5,0);
     float masse = 10.0 * scale;
-    Vecteur3D force = new Vecteur3D(0,10,0); //y vertical et vers le bas -> g selon y et positif ?
+    Vecteur3D force = new Vecteur3D(0,gravity,0); //y vertical et vers le bas -> g selon y et positif ?
     force.Multiply(masse);
     Particule p = new Particule(masse, pos0, v0, force);
     bullets.add(p);
@@ -42,4 +47,7 @@ void draw() {
       bullets.remove(i);
     }  
   }
+  
+  //ui.drawUi();
+  
 }

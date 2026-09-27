@@ -12,7 +12,6 @@ void setup() {
   Vecteur3D force = new Vecteur3D(0,10,0); //y vertical et vers le bas -> g selon y et positif ?
   force.Multiply(masse);
   p = new Particule(masse, pos0, v0, force);
-  timeLastFrame = millis();
 }
 
 
