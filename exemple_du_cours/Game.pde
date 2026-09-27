@@ -12,6 +12,7 @@ int score = 0;
 int essais = 3;
 boolean gameOver = false;
 boolean aNettoyer = true;
+boolean afficherFrame = false;
 
 color[] couleurs = {
   color(255, 220, 0),
@@ -25,6 +26,7 @@ float rayonType() {
 }
 
 void setup() {
+  lancerTests();
   size(1280, 720, P3D);
   noStroke();
   bullets = new ArrayList<Particule>();
@@ -66,10 +68,7 @@ void mousePressed() {
 
 void keyPressed() {
   if (key == ' ') {
-    background(102);
-    for (int i = bullets.size()-1; i>=0; i--){ 
-      bullets.remove(i);
-    }  
+    afficherFrame = !afficherFrame;  
   }
   if ((key == 'r' || key == 'R') && gameOver) {
     score = 0;
@@ -131,7 +130,9 @@ void draw() {
   target.display();
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
-  print("duree frame:" + dt + " secondes\n");
+  if(afficherFrame){
+    print("duree frame:" + dt + " secondes\n");
+  }
   for (int i = bullets.size()-1; i>=0; i--){ 
     Particule p = bullets.get(i);
     p.update(dt);

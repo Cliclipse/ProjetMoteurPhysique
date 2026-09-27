@@ -44,15 +44,15 @@ class Vecteur3D {
    //Produit Vectoriel
   Vecteur3D ProdVectoriel(Vecteur3D vector){
     Vecteur3D result = new Vecteur3D(0,0,0);
-    result.x = this.y * vector.z - vector.y * this.z; // vector.y * this.z et pas - 
+    result.x = this.y * vector.z - vector.y * this.z;
     result.y = this.z * vector.x - vector.z * this.x;
-    result.z = this.x * vector.y - vector.x * this.y; // result.x -> result.z
+    result.z = this.x * vector.y - vector.x * this.y;
     return result;
   }
   
   //Norme
   float NormeCarre(){
-    float result = this.x * this.x + this.y * this.y + this.z * this.z; // A test je sais pas si sqrt est natif
+    float result = this.x * this.x + this.y * this.y + this.z * this.z;
     return result; 
   }
   
@@ -60,10 +60,13 @@ class Vecteur3D {
     return(sqrt(this.NormeCarre()));
   }
 
-  //Normaliser (jsp si ce sera utile)
   void Normalised(){
     if (this.Norme() != 0){
       this.Divide(this.Norme());
     }
+  }
+  
+  boolean Egal(Vecteur3D v){
+    return (abs(this.x - v.x) < 0.0001 && abs(this.y - v.y) < 0.0001 && abs(this.z - v.z) < 0.001);
   }
 }
