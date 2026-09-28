@@ -52,7 +52,7 @@ void mousePressed() {
     float masse = 10.0 * (bulletType+1);
     Vecteur3D force = new Vecteur3D(0,gravity,0); //y vertical et vers le bas -> g selon y et positif ?
     force.Multiply(masse);
-    Particule p = new Particule(masse, pos0, v0, force);
+    Particule p = new Particule(1/masse, pos0, v0, force);
     p.rayon = rayonType();
     p.couleur = couleurs[bulletType];
     bullets.add(p);

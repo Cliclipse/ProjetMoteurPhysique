@@ -2,24 +2,24 @@ class Particule {
   Vecteur3D Position;
   Vecteur3D Vitesse;
   Vecteur3D Acceleration;
-  float mass;
+  float inverseMass;
   float rayon = 5;
   int couleur = color(0);
   
-  Particule(float mass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){
-    this.mass = mass;
+  Particule(float invMass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){
+    this.inverseMass = invMass;
     Position = posInit;
     Vitesse = vitesseInit;
     Acceleration = new Vecteur3D(force.x, force.y, force.z);
-    Acceleration.Divide(mass); // somme(force) = m*a donc a = somme(force)/m or une seule force donc a = force/m
+    Acceleration.Multiply(invMass); // somme(force) = m*a donc a = somme(force)/m or une seule force donc a = force/m
   }
   
   float getInvMass(){
-    return(1/mass);
+    return(inverseMass);
   }
   
   void setInvMass(float invMass){
-    mass = 1/invMass;
+    inverseMass = invMass;
   }
   
   void Integrer(float temps){
