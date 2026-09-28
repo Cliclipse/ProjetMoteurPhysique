@@ -103,11 +103,14 @@ void cibleTouchee() {
 void afficherHUD() {
   
   fill(102);
-  rect(width-270, 10, 260, 60);
+  rect(width-270, 10, 260, 85);
   fill(255);
   textSize(16);
   text("Score : " + score, width-260, 35);
   text("Essais restants : " + essais, width-260, 60);
+  if(afficherFrame){
+    text("Durée frame : " + nf(dt * 1000, 0, 1) + " ms", width-260, 85);
+  }
   if (gameOver) {
     textSize(48);
     textAlign(CENTER);
@@ -130,9 +133,6 @@ void draw() {
   target.display();
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
-  if(afficherFrame){
-    print("duree frame:" + dt + " secondes\n");
-  }
   for (int i = bullets.size()-1; i>=0; i--){ 
     Particule p = bullets.get(i);
     p.update(dt);
