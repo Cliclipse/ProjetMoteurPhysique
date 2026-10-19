@@ -1,6 +1,7 @@
 ArrayList<Particule> bullets;
 Particule target;
 Particule player;
+Blob blob;
 int bulletType = 0;
 float dt; // duree de la frame
 int timeLastFrame; //temps actuel
@@ -26,6 +27,7 @@ float rayonType() {
 }
 
 void setup() {
+  blob = new Blob();
   lancerTests();
   size(1280, 720, P3D);
   noStroke();
@@ -78,6 +80,9 @@ void keyPressed() {
     nouvelleCible();
     aNettoyer = true;
   }
+  
+  //Déplacement du slime
+  if(key == 'q' || key == 's' || key == 'd' || key == 'z') blob.Move(key); 
 }
 
 void nouvelleCible() {
