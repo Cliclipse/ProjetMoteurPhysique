@@ -69,4 +69,10 @@ class Vecteur3D {
   boolean Egal(Vecteur3D v){
     return (abs(this.x - v.x) < 0.0001 && abs(this.y - v.y) < 0.0001 && abs(this.z - v.z) < 0.001);
   }
+  
+  void Reset(){
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+  }
 }

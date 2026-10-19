@@ -54,7 +54,8 @@ class Particule {
   }
   
   // Partie 2
-
+  Vecteur3D AccumForce;
+  
   public float getMass(){
     return (1/inverseMass);
   }
@@ -62,5 +63,14 @@ class Particule {
   public float getInverseMass(){
     return inverseMass;
   }
+  void AddForce(Vecteur3D force){
+    AccumForce.Add(force); 
+  }
+  
+  void clearAccum(){
+    AccumForce.Reset();
+  }
+  
+  
   
 }
