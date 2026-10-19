@@ -16,7 +16,7 @@ class Blob{
     print("test\n");
     print(keyPressed);
     
-   
+   //Ajout à la particule maitre dans son accumulator de force une certaine force vers la droite
   }
 
 }

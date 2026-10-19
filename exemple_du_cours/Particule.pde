@@ -52,4 +52,15 @@ class Particule {
     float r = rayon + autre.rayon;
     return d.NormeCarre() <= r*r;
   }
+  
+  // Partie 2
+
+  public float getMass(){
+    return (1/inverseMass);
+  }
+
+  public float getInverseMass(){
+    return inverseMass;
+  }
+  
 }
