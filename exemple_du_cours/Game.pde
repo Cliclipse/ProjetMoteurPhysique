@@ -160,6 +160,8 @@ void draw() {
   //afficherHUD();
   
   world.Update(dt);
+  background(60,200,255);
   world.display();
+  world.bob.UpdateBlob(dt);
   world.bob.DrawBlob();
 }

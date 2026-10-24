@@ -6,6 +6,7 @@ class Particule {
   float rayon = 5;
   int couleur = color(0);
   boolean isInBlob = false;
+  Vecteur3D AccumForce = new Vecteur3D(0,0,0);
   
   Particule(float invMass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){
     this.inverseMass = invMass;
@@ -35,6 +36,8 @@ class Particule {
 }
   
   void update(float temps) {
+    Acceleration = AccumForce;
+    Acceleration.Multiply(inverseMass);
     Integrer(temps);
   }
  
@@ -55,7 +58,7 @@ class Particule {
   }
   
   // Partie 2
-  Vecteur3D AccumForce;
+  //Vecteur3D AccumForce;
   
   public float getMass(){
     return (1/inverseMass);

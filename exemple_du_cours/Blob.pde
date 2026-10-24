@@ -1,6 +1,7 @@
 class Blob{
   Particule[] membre;
-  ParticuleRessort[][] ressorts;
+  particuleForceRegistry ressorts;
+  //ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
   float particulesSpeed;
@@ -35,7 +36,7 @@ class Blob{
   
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
-    this.ressorts = new ParticuleRessort[nbMembre][nbMembre];
+    this.ressorts = new particuleForceRegistry();
     this.membre = new Particule[nbMembre];
     rayon = rayonPart;
     this.nbMembre = nbMembre;
@@ -47,8 +48,11 @@ class Blob{
         membre[i].couleur = colorBlob;
         membre[i].isInBlob = true;
         
-        for (int j = 0; i<nbMembre ; j++){
-          if (i != j) ressorts[i][j] = new ParticuleRessort(kBlob,l0,membre[i].Position,false);
+        for (int j = 0; j<i ; j++){
+          if (i != j){
+            ressorts.Add(membre[i],new ParticuleRessort(kBlob,l0,membre[j].Position,true));
+            ressorts.Add(membre[j],new ParticuleRessort(kBlob,l0,membre[i].Position,true));
+          }
         }
     }
   }
@@ -61,11 +65,7 @@ class Blob{
   }
   
   
-  void UpdateBlob(){
-      for (int i = 0; i<nbMembre ; i++){
-            for (int j = 0; j<nbMembre ; j++){
-              if (i != j) ressorts[i][j].updateForce();
-            }
-      }
-
+  void UpdateBlob(float dt){
+      ressorts.UpdateForces(dt);
+  }
 }
