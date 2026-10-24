@@ -65,14 +65,30 @@ class ParticuleRessort extends ForceGenerator
   }
 }
 
-//TODO: Je comprend pas non plus quoi faire de K1 et K2
 class ParticuleFriction extends ForceGenerator
 {
   float K1;
   float K2;
+  float mus;
+  
+  ParticuleFriction(float K1, float K2, float mus){
+    this.K1 = K1;
+    this.K2 = K2;
+    this.mus = mus;
+  }
+  
   void updateforce(Particule particule, float duration){
     Vecteur3D friction = particule.Vitesse;
-    friction.Normalised();
-    friction.Multiply(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme());
+    if(friction.Norme() <= 0.001){ // ~vitesse nulle
+      float Norme = mus*9.81*particule.getMass();
+      Vecteur3D dir = new Vecteur3D(-1,0,0);
+      dir.Multiply(Norme);
+      particule.AddForce(dir);
+    }
+    else{
+      friction.Normalised();
+      friction.Multiply(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme());
+      particule.AddForce(friction);
+    }
   }
 }
