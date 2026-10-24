@@ -28,8 +28,8 @@ float rayonType() {
 }
 
 void setup() {
-  blob = new Blob();
   world = new World();
+  world.Setup();
   lancerTests();
   size(1280, 720, P3D);
   noStroke();
@@ -84,7 +84,7 @@ void keyPressed() {
   }
   
   //Déplacement du slime
-  if(key == 'q' || key == 's' || key == 'd' || key == 'z') blob.Move(key); 
+  //if(key == 'q' || key == 's' || key == 'd' || key == 'z') blob.Move(key); 
 }
 
 void nouvelleCible() {

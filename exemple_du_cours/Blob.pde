@@ -38,6 +38,7 @@ class Blob{
   
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
+    this.membre = new Particule[nbMembre];
     rayon = rayonPart;
     colorBlob = couleurPart;
     for (int i = 0; i<nbMembre ; i++){
