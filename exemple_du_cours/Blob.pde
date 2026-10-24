@@ -15,6 +15,7 @@ class Blob{
   public void ApplyPhysic(){
     for(int i = 0 ; i <nbMembre ; i++); //membre[i].calculForce();
   }
+  
   /*
   public void Move(char keyPressed)
   {

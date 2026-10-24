@@ -5,7 +5,7 @@ class Particule {
   float inverseMass;
   float rayon = 5;
   int couleur = color(0);
-  boolean isinBlob = false;
+  boolean isInBlob = false;
   
   Particule(float invMass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){
     this.inverseMass = invMass;
