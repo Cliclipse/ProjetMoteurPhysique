@@ -2,7 +2,12 @@ class Blob{
   Particule[] membre;
   int nbMembre;
   int indexMasterParticule;
-  float masterparticuleSpeed;
+  float particulesSpeed;
+  float invMassPart;
+  color colorBlob = color(255, 220, 0);
+  float rayon = 0.5f;
+  
+  
   
   //Ressort[] muscle;
   
@@ -18,5 +23,25 @@ class Blob{
     
    //Ajout à la particule maitre dans son accumulator de force une certaine force vers la droite
   }
+  
+  
+
+  
+  Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
+    for (int i = 0; i<nbMembre ; i++){
+        Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
+        membre[i] = new Particule(invMassPart, vecteurNul , vecteurNul , vecteurNul);
+        rayon = rayonPart;
+        colorBlob = couleurPart;
+    }
+  }
+  
+    public void DrawBlob(){
+    for (int i = 0; i<nbMembre ; i++){
+       membre[i].display();
+        
+    }
+  }
+  
 
 }

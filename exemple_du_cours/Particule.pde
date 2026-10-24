@@ -71,6 +71,13 @@ class Particule {
     AccumForce.Reset();
   }
   
+  void SetColor(color colorPart){
+    couleur = colorPart; 
+  }
+  
+  void SetRayon(float rayonPart){
+    rayon = rayonPart; 
+  }
   
   
 }
