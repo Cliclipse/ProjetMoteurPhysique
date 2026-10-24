@@ -1,21 +1,22 @@
 class World{
   Particule[] WorldParticule;
-  Vecteur3D groundDimensions = new Vecteur3D(width*5,10,1000);
+  Vecteur3D groundDimensions = new Vecteur3D(1000000,10,1000000);
   Blob bob;
   Particule camParticule;
   particuleForceRegistry registry;
   
   void Setup(){
-    bob = new Blob(15,0.5,50,color(255,60,60));
-    camParticule = new Particule(999999, new Vecteur3D(width/2,height/2,650), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
+    bob = new Blob(15,0.5,10,color(255,60,60));
+    camParticule = new Particule(0.5, new Vecteur3D(640,700,50), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
     registry = new particuleForceRegistry();
-    registry.Add(camParticule, new ParticuleRessort(1000,20,bob.membre[0].Position,true));
+    registry.Add(camParticule, new ParticuleRessort(10,50,bob.membre[0].Position,false));
+    //bob.UpdateBlob(dt);
+    //camera(640,360,650,bob.membre[0].Position.x,bob.membre[0].Position.y,bob.membre[0].Position.z,0,1,0);
   }
     
   void Update(float dt){
     registry.UpdateForces(dt);
     //camera(camParticule.Position.x,camParticule.Position.y,camParticule.Position.z,bob.membre[0].Position.x,bob.membre[0].Position.y,bob.membre[0].Position.z,0,1,0);
-    //camera(width/2,height/2,650,bob.membre[0].Position.x,bob.membre[0].Position.y,bob.membre[0].Position.z,0,1,0);
 }
   
   void display(){

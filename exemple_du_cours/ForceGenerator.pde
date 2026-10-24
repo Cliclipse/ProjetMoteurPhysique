@@ -56,7 +56,7 @@ class ParticuleRessort extends ForceGenerator
     Vecteur3D l = particule.Position;
     l.Substract(o);
     
-    if(!isBungee || l.Norme() < l0){
+    if(!isBungee || l.Norme() > l0){
       Vecteur3D dir = l;
       dir.Normalised();
       dir.Multiply(k*(l0 - l.Norme()));

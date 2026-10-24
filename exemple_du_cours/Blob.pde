@@ -43,10 +43,12 @@ class Blob{
     colorBlob = couleurPart;
     for (int i = 0; i<nbMembre ; i++){
         Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
-        membre[i] = new Particule(invMassPart, new Vecteur3D(width/2,height*0.9,0) , vecteurNul , vecteurNul);
+        membre[i] = new Particule(invMassPart, new Vecteur3D(640,700,0) , vecteurNul , vecteurNul);
         membre[i].rayon = rayon;
         membre[i].couleur = colorBlob;
         membre[i].isInBlob = true;
+        
+        ressorts.Add(membre[i],new ParticuleGravity());
         
         for (int j = 0; j<i ; j++){
           if (i != j){
@@ -67,5 +69,6 @@ class Blob{
   
   void UpdateBlob(float dt){
       ressorts.UpdateForces(dt);
+      //membre[0].Position = new Vecteur3D(550,550,0);
   }
 }
