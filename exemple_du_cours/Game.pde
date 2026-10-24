@@ -2,6 +2,7 @@ ArrayList<Particule> bullets;
 Particule target;
 Particule player;
 Blob blob;
+World world;
 int bulletType = 0;
 float dt; // duree de la frame
 int timeLastFrame; //temps actuel
@@ -28,6 +29,7 @@ float rayonType() {
 
 void setup() {
   blob = new Blob();
+  world = new World();
   lancerTests();
   size(1280, 720, P3D);
   noStroke();
@@ -129,7 +131,7 @@ void afficherHUD() {
 
 void draw() {
   if (aNettoyer) {
-    background(102);
+    background(60,200,255);
     aNettoyer = false;
   }
   player.Position.x = width*0.5;
@@ -156,4 +158,6 @@ void draw() {
   }
   
   afficherHUD();
+  
+  world.display();
 }

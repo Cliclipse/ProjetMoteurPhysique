@@ -42,33 +42,53 @@ class ParticuleRessort extends ForceGenerator
 {
   float k;
   float l0;
+  boolean isBungee;
   Vecteur3D o;
   
-  ParticuleRessort(float k, float l0, Vecteur3D o){
+  ParticuleRessort(float k, float l0, Vecteur3D o, boolean isBungee){
     this.k = k;
     this.o = o;
     this.l0  = l0;
+    this.isBungee = isBungee;
   }
   
   void updateforce(Particule particule, float duration){
     Vecteur3D l = particule.Position;
     l.Substract(o);
     
-    Vecteur3D dir = l;
-    dir.Normalised();
-    dir.Multiply(k*(l0 - l.Norme()));
-    particule.AddForce(dir);
+    if(!isBungee || l.Norme() < l0){
+      Vecteur3D dir = l;
+      dir.Normalised();
+      dir.Multiply(k*(l0 - l.Norme()));
+      particule.AddForce(dir);
+    }
   }
 }
 
-//TODO: Je comprend pas non plus quoi faire de K1 et K2
 class ParticuleFriction extends ForceGenerator
 {
   float K1;
   float K2;
+  float mus;
+  
+  ParticuleFriction(float K1, float K2, float mus){
+    this.K1 = K1;
+    this.K2 = K2;
+    this.mus = mus;
+  }
+  
   void updateforce(Particule particule, float duration){
     Vecteur3D friction = particule.Vitesse;
-    friction.Normalised();
-    friction.Multiply(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme());
+    if(friction.Norme() <= 0.001){ // ~vitesse nulle
+      float Norme = mus*9.81*particule.getMass();
+      Vecteur3D dir = new Vecteur3D(-1,0,0);
+      dir.Multiply(Norme);
+      particule.AddForce(dir);
+    }
+    else{
+      friction.Normalised();
+      friction.Multiply(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme());
+      particule.AddForce(friction);
+    }
   }
 }
