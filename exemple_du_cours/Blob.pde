@@ -10,11 +10,7 @@ class Blob{
   float kBlob = 10f; // arbitraire
   float l0 = 5f;
 
-  
-  
-  //Ressort[] muscle;
-  
-  //Fonction qui apply la physique pour chaque particule du blob
+    //Fonction qui apply la physique pour chaque particule du blob
   public void ApplyPhysic(){
     for(int i = 0 ; i <nbMembre ; i++); //membre[i].calculForce();
   }
@@ -39,6 +35,7 @@ class Blob{
   
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
+    this.ressorts = new ParticuleRessort[nbMembre][nbMembre];
     this.membre = new Particule[nbMembre];
     rayon = rayonPart;
     this.nbMembre = nbMembre;
@@ -51,7 +48,7 @@ class Blob{
         membre[i].isInBlob = true;
         
         for (int j = 0; i<nbMembre ; j++){
-           ressorts[i][j] = new ParticuleRessort(kBlob,l0,membre[i].Position,false);
+          if (i != j) ressorts[i][j] = new ParticuleRessort(kBlob,l0,membre[i].Position,false);
         }
     }
   }
@@ -63,5 +60,12 @@ class Blob{
     }
   }
   
+  
+  void UpdateBlob(){
+      for (int i = 0; i<nbMembre ; i++){
+            for (int j = 0; j<nbMembre ; j++){
+              if (i != j) ressorts[i][j].updateForce();
+            }
+      }
 
 }
