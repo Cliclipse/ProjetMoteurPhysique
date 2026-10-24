@@ -1,0 +1,64 @@
+class Blob{
+  Particule[] membre;
+  int nbMembre;
+  int indexMasterParticule;
+  float particulesSpeed;
+  float invMassPart;
+  color colorBlob = color(255, 0, 0);
+  float rayon = 0.5f;
+  float Kblob = 10; //arbitraire
+  float l0 = 5; //
+  
+  
+  //Ressort[] muscle;
+  
+  //Fonction qui apply la physique pour chaque particule du blob
+  public void ApplyPhysic(){
+    for(int i = 0 ; i <nbMembre ; i++); //membre[i].calculForce();
+  }
+  
+  
+  public void Move(char keyPressed, float dt)
+  {
+    print(keyPressed);
+    Vecteur3D move = new Vecteur3D(0,0,0);
+    
+    
+    if (key == 'q') move.x -= particulesSpeed * dt ;
+    if (key == 'd') move.x += particulesSpeed * dt ;
+    if (key == 's') move.z -= particulesSpeed * dt ;
+    if (key == 'z') move.z += particulesSpeed * dt ;
+
+    for (int i = 0; i<nbMembre ; i++){
+        membre[i].Position.Add(move);
+    }
+    
+   //Ajout à la particule maitre dans son accumulator de force une certaine force vers la droite
+  }
+  
+  
+  
+  Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
+    rayon = rayonPart;
+    colorBlob = couleurPart;
+    for (int i = 0; i<nbMembre ; i++){
+        Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
+        membre[i] = new Particule(invMassPart, vecteurNul , vecteurNul , vecteurNul);
+        membre[i].rayon = rayon;
+        membre[i].couleur = colorBlob;
+        membre[i].isInBlob = true;
+        
+        for (int j = 0; i<nbMembre ; j++)
+           new ParticuleRessort(Kblob, l0, Vecteur3D o, boolean isBungee){
+
+    }
+  }
+  
+    public void DrawBlob(){
+    for (int i = 0; i<nbMembre ; i++){
+       membre[i].display();
+    }
+  }
+  
+
+}
