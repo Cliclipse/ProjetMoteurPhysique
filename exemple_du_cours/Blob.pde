@@ -16,23 +16,26 @@ class Blob{
     for(int i = 0 ; i <nbMembre ; i++); //membre[i].calculForce();
   }
   
-  /*
-  public void Move(char keyPressed)
+  
+  public void Move(char keyPressed, float dt)
   {
     print(keyPressed);
     Vecteur3D move = new Vecteur3D(0,0,0);
     
     
-    if (key == 'q') move.x += ;
-    
-    
-    || key == 's' || key == 'd' || key == 'z')
+    if (key == 'q') move.x -= particulesSpeed * dt ;
+    if (key == 'd') move.x += particulesSpeed * dt ;
+    if (key == 's') move.z -= particulesSpeed * dt ;
+    if (key == 'z') move.z += particulesSpeed * dt ;
 
+    for (int i = 0; i<nbMembre ; i++){
+        membre[i].Position.Add(move);
+    }
     
    //Ajout à la particule maitre dans son accumulator de force une certaine force vers la droite
   }
   
-  */
+  
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
     rayon = rayonPart;
@@ -43,7 +46,6 @@ class Blob{
         membre[i].rayon = rayon;
         membre[i].couleur = colorBlob;
         membre[i].isInBlob = true;
-        
     }
   }
   
