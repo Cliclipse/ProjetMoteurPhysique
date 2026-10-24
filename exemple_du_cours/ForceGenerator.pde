@@ -42,22 +42,26 @@ class ParticuleRessort extends ForceGenerator
 {
   float k;
   float l0;
+  boolean isBungee;
   Vecteur3D o;
   
-  ParticuleRessort(float k, float l0, Vecteur3D o){
+  ParticuleRessort(float k, float l0, Vecteur3D o, boolean isBungee){
     this.k = k;
     this.o = o;
     this.l0  = l0;
+    this.isBungee = isBungee;
   }
   
   void updateforce(Particule particule, float duration){
     Vecteur3D l = particule.Position;
     l.Substract(o);
     
-    Vecteur3D dir = l;
-    dir.Normalised();
-    dir.Multiply(k*(l0 - l.Norme()));
-    particule.AddForce(dir);
+    if(!isBungee || l.Norme() < l0){
+      Vecteur3D dir = l;
+      dir.Normalised();
+      dir.Multiply(k*(l0 - l.Norme()));
+      particule.AddForce(dir);
+    }
   }
 }
 
