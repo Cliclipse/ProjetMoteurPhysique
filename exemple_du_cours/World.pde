@@ -10,10 +10,13 @@ class World{
     camParticule = new Particule(999999, new Vecteur3D(width/2,height/2,650), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
     camera(camParticule.Position.x,camParticule.Position.y,camParticule.Position.z,width/2,height/2,0,0,1,0);
     registry = new particuleForceRegistry();
-    registry.Add(camParticule, new ParticuleRessort(1,20,bob.membre[0].Position,true));
-    registry.Add(bob.membre[0], new ParticuleRessort(1,20,camParticule.Position,true));
+    registry.Add(camParticule, new ParticuleRessort(1000,20,bob.membre[0].Position,true));
+    registry.Add(bob.membre[0], new ParticuleRessort(1000,20,camParticule.Position,true));
   }
     
+  void Update(float dt){
+    registry.UpdateForces(dt);
+  }
   
   void display(){
     pushMatrix();
@@ -21,6 +24,5 @@ class World{
     fill(color(60,255,60));
     box(width*5,10,1000);
     popMatrix();
-    bob.DrawBlob();
   }
 }

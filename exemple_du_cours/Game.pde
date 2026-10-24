@@ -137,7 +137,7 @@ void draw() {
   player.Position.x = width*0.5;
   player.Position.y = height*0.5;
   player.display();
-  target.display();
+  //target.display();
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
   for (int i = bullets.size()-1; i>=0; i--){ 
@@ -157,7 +157,9 @@ void draw() {
     aNettoyer = true;
   }
   
-  afficherHUD();
+  //afficherHUD();
   
+  world.Update(dt);
   world.display();
+  world.bob.DrawBlob();
 }
