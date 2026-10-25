@@ -83,5 +83,104 @@ class Particule {
     rayon = rayonPart; 
   }
   
-  
+  void detectCollisions(float dframe, World w, ParticuleGravity Pg, Blob b, ArrayList<Contact> liens){
+    int n = w.WorldParticule.length;
+    float e = 0.5; // coefficient de restitution
+
+    ArrayList<Contact> contacts = new ArrayList<Contact>();
+
+    // Sphères : interpénétrations, toutes les paires O(n²)
+    for(int i = 0; i < n; i++){
+      Particule pi = w.WorldParticule[i];
+      for(int j = 0; j < i; j++){
+        Particule pj = w.WorldParticule[j];
+        if(pi.touche(pj)){
+          /*if(pi.isInBlob && pj.isInBlob) {
+            continue; // pas de collision dans le blob
+          }*/
+          if(pi.isInBlob != pj.isInBlob){
+            Particule libre  = pi.isInBlob ? pj : pi;
+            Particule membre = pi.isInBlob ? pi : pj;
+            libre.Vitesse = new Vecteur3D(membre.Vitesse.x, membre.Vitesse.y, membre.Vitesse.z);
+            b.AddParticule(libre);
+          }
+          contacts.add(new Contact(pi, pj, 0, 0, e));
+        }
+      }
+    }
+
+    // Câbles et tiges
+    for(Contact c : liens){
+      if(c.type == 1 && c.penetration() <= 0) continue; // câble détendu : aucun effet
+      contacts.add(c);
+    }
+
+    //on résout les 2n contacts les plus "important" (vitesse relative plus grande)
+    int maxIter = 2 * contacts.size();
+    for(int it = 0; it < maxIter; it++){
+      Contact pire = null;
+      float pireVn = 0;
+      float pirePen = 0;
+      for(Contact c : contacts){
+        float vn = vitesseRapprochement(c);
+        float pen = c.penetration();
+        if(c.type == 1 && pen < 0) continue; // câble détendu
+        if(vn > 0 || pen > 0.01){
+          // priorité : plus grande vitesse relative, puis plus grande pénétration
+          if(pire == null || vn > pireVn || (vn == pireVn && pen > pirePen)){
+            pire = c;
+            pireVn = vn;
+            pirePen = pen;
+          }
+        }
+      }
+      if(pire == null) break;
+      resoudreContact(pire, dframe, Pg);
+    }
+  }
+
+  //Vitesse relative selon la normale
+  float vitesseRapprochement(Contact c){
+    Vecteur3D vRel = new Vecteur3D(c.a.Vitesse.x - c.b.Vitesse.x, c.a.Vitesse.y - c.b.Vitesse.y, c.a.Vitesse.z - c.b.Vitesse.z);
+    return vRel.ProdScalaire(c.normale());
+  }
+
+  void resoudreContact(Contact c, float dframe, ParticuleGravity Pg){
+    Particule a = c.a;
+    Particule b = c.b;
+    float sommeInv = a.inverseMass + b.inverseMass;
+    if(sommeInv <= 0) return; //masses infinies
+    if(c.type == 1 && c.penetration() < 0) return; // câble détendu : aucun effet
+    Vecteur3D nrm = c.normale();
+
+    //Impulsion
+     Vecteur3D vRel = new Vecteur3D(a.Vitesse.x - b.Vitesse.x, a.Vitesse.y - b.Vitesse.y, a.Vitesse.z - b.Vitesse.z);
+    float vn = vRel.ProdScalaire(nrm);
+    if(vn > 0){
+
+      float vGravite = abs(Pg.gravity.ProdScalaire(nrm)) * dframe;
+      float eContact = (vn <= vGravite) ? 0 : c.e; //0 : contact au repos
+
+      float K = (eContact + 1) * vn / sommeInv;
+
+      // variations vitesse
+      Vecteur3D dvA = new Vecteur3D(nrm.x, nrm.y, nrm.z);
+      dvA.Multiply(-K * a.inverseMass);
+      a.Vitesse.Add(dvA);
+      Vecteur3D dvB = new Vecteur3D(nrm.x, nrm.y, nrm.z);
+      dvB.Multiply(K * b.inverseMass);
+      b.Vitesse.Add(dvB);
+    }
+
+    //Séparation (inversement proportionnelle à la masse)
+    float d = c.penetration();
+    if(d > 0){
+      Vecteur3D dpA = new Vecteur3D(nrm.x, nrm.y, nrm.z);
+      dpA.Multiply(-d * a.inverseMass / sommeInv);
+      a.Position.Add(dpA);
+      Vecteur3D dpB = new Vecteur3D(nrm.x, nrm.y, nrm.z);
+      dpB.Multiply(d * b.inverseMass / sommeInv);
+      b.Position.Add(dpB);
+    }
+  }
 }

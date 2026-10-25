@@ -9,6 +9,7 @@ int timeLastFrame; //temps actuel
 float damping = 0.95;
 UI ui;
 float gravity = 9.8;
+ParticuleGravity gravite = new ParticuleGravity();
 
 int score = 0;
 int essais = 3;
@@ -140,6 +141,7 @@ void draw() {
   //target.display();
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
+  
   for (int i = bullets.size()-1; i>=0; i--){ 
     Particule p = bullets.get(i);
     p.update(dt);
@@ -160,8 +162,16 @@ void draw() {
   //afficherHUD();
   
   world.Update(dt);
+  world.bob.UpdateBlob(dt);
+  
+  for (Particule p : world.WorldParticule){
+    p.update(dt);
+    p.clearAccum();
+  }
+  //collisions
+  world.WorldParticule[0].detectCollisions(dt, world, gravite, world.bob, world.bob.liens);
+
   background(60,200,255);
   world.display();
-  world.bob.UpdateBlob(dt);
   world.bob.DrawBlob();
 }

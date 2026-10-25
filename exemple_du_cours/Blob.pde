@@ -10,6 +10,9 @@ class Blob{
   float rayon = 0.5f;
   float kBlob = 10f; // arbitraire
   float l0 = 5f;
+  ArrayList<Contact> liens = new ArrayList<Contact>();
+  float lCable = 120;   // longueur max d'un lien (câble si superieur)
+  float eCable = 0.2;
 
     //Fonction qui apply la physique pour chaque particule du blob
   public void ApplyPhysic(){
@@ -54,10 +57,12 @@ class Blob{
           if (i != j){
             ressorts.Add(membre[i],new ParticuleRessort(kBlob,l0,membre[j].Position,true));
             //ressorts.Add(membre[j],new ParticuleRessort(kBlob,l0,membre[i].Position,true));
+            liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
           }
         }
+      }
     }
-  }
+  
      
     public void DrawBlob(){
     for (int i = 0; i<nbMembre ; i++){
@@ -70,5 +75,34 @@ class Blob{
   void UpdateBlob(float dt){
       ressorts.UpdateForces(dt);
       //membre[0].Position = new Vecteur3D(550,550,0);
+  }
+  
+  
+  public void AddParticule(Particule p){
+    if (p.isInBlob) {
+      return;
+    }
+    p.isInBlob = true;
+    p.couleur = colorBlob;
+    
+    float frequenceLien = 1; //arbitraire, 1 oscillation par seconde
+
+    //f = (1/2pi)·√(k/m), k = m·(2pif)²
+    float k = p.getMass() * sq(TWO_PI * frequenceLien);
+    
+    for (int i = 0; i < nbMembre; i++){
+      Particule autre = membre[i];
+      Vecteur3D d = new Vecteur3D(p.Position.x - autre.Position.x, p.Position.y - autre.Position.y, p.Position.z - autre.Position.z);
+
+      // l0 (longueur au repos): distance au moment de l ajout
+      float l0 = max(d.Norme(), p.rayon + autre.rayon);
+
+      ressorts.Add(p, new ParticuleRessort(k, l0, autre.Position, false)); 
+      ressorts.Add(autre, new ParticuleRessort(k, l0, p.Position, false));
+      liens.add(new Contact(p, autre, 1, lCable, eCable));
+    }
+    
+    membre = (Particule[]) append(membre, p);
+    nbMembre++;
   }
 }
