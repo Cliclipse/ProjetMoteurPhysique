@@ -70,6 +70,7 @@ class Particule {
   void AddForce(Vecteur3D force){
     AccumForce.Add(force); 
   }
+
   
   void clearAccum(){
     AccumForce.Reset();

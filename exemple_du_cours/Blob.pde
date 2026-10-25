@@ -1,7 +1,7 @@
 class Blob{
   Particule[] membre;
   particuleForceRegistry forceRegistry;
-  //ParticuleRessort[][] ressorts;
+  ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
   float particulesSpeed = 5000000;
@@ -9,10 +9,10 @@ class Blob{
   color colorBlob = color(255, 0, 0);
   float rayon = 0.5f;
   float kBlob = 5f; // arbitraire
-  float l0 = 5f;
+  float l0 = 1f;
   ArrayList<Contact> liens = new ArrayList<Contact>();
-  float lCable = 120;   // longueur max d'un lien (câble si superieur)
-  float eCable = 0.2;
+  float lCable = 45;   // longueur max d'un lien (câble si superieur)
+  float eCable = 0.2f;
 
     //Fonction qui apply la physique pour chaque particule du blob
   public void ApplyPhysic(){
@@ -39,30 +39,47 @@ class Blob{
   
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
+    ressorts = new ParticuleRessort[nbMembre][nbMembre]; 
     this.forceRegistry = new particuleForceRegistry();
     this.membre = new Particule[nbMembre];
     rayon = rayonPart;
     this.nbMembre = nbMembre;
     colorBlob = couleurPart;
+    float frequenceLien = 1; //arbitraire, 1 oscillation par seconde
+    this.invMassPart = invMassPart;
+
+    //f = (1/2pi)·√(k/m), k = m·(2pif)²
+    kBlob = (1/invMassPart)* sq(TWO_PI * frequenceLien);
     
     for (int i = 0; i< nbMembre ; i++){
+        this.AddParticuleToBlob(new Vecteur3D(640,700,0), i);
+    }
+  }
+  
+  
+  public void AddParticuleToBlob(Vecteur3D positionBlob, int indexParticule ){
+        print("test");
         Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
-        membre[i] = new Particule(invMassPart, new Vecteur3D(640,700,0) , vecteurNul , vecteurNul);
-        membre[i].rayon = rayon;
-        membre[i].couleur = colorBlob;
-        membre[i].isInBlob = true;
+        membre[indexParticule] = new Particule(invMassPart, positionBlob , vecteurNul , vecteurNul);
+        membre[indexParticule].rayon = rayon;
+        membre[indexParticule].couleur = colorBlob;
+        membre[indexParticule].isInBlob = true;
         
-        forceRegistry.Add(membre[i],new ParticuleGravity());
+        forceRegistry.Add(membre[indexParticule],new ParticuleGravity());
         
-        for (int j = 0; j<i ; j++){         
-          if (i != j){
-            forceRegistry.Add(membre[i],new ParticuleRessortParticule(kBlob,l0,membre[j],true));
-            forceRegistry.Add(membre[j],new ParticuleRessortParticule(kBlob,l0,membre[i],true));
-            liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
+        for (int indexParticuleLiee = 0; indexParticuleLiee<indexParticule ; indexParticuleLiee++){         
+          if (indexParticule != indexParticuleLiee){
+            ressorts[indexParticule][indexParticuleLiee] = new ParticuleRessort(kBlob, l0, membre[indexParticule].Position, false);
+            ressorts[indexParticuleLiee][indexParticule] = new ParticuleRessort(kBlob, l0, membre[indexParticuleLiee].Position, false);
+
+            forceRegistry.Add(membre[indexParticule], ressorts[indexParticule][indexParticuleLiee]);
+            forceRegistry.Add(membre[indexParticuleLiee], ressorts[indexParticuleLiee][indexParticule]);
+            
+            liens.add(new Contact(membre[indexParticule], membre[indexParticuleLiee], 1, lCable, eCable));
           }
         }
       }
-    }
+ 
   
      
     public void DrawBlob(){
@@ -86,24 +103,29 @@ class Blob{
     p.isInBlob = true;
     p.couleur = colorBlob;
     
-    float frequenceLien = 1; //arbitraire, 1 oscillation par seconde
+    this.AddParticuleToBlob(p.Position, nbMembre);
 
-    //f = (1/2pi)·√(k/m), k = m·(2pif)²
-    float k = p.getMass() * sq(TWO_PI * frequenceLien);
+  
+
     
-    for (int i = 0; i < nbMembre; i++){
-      Particule autre = membre[i];
-      Vecteur3D d = new Vecteur3D(p.Position.x - autre.Position.x, p.Position.y - autre.Position.y, p.Position.z - autre.Position.z);
-
-      // l0 (longueur au repos): distance au moment de l ajout
-      l0 = max(d.Norme(), p.rayon + autre.rayon);
-
-      forceRegistry.Add(p, new ParticuleRessort(k, l0, autre.Position, false)); 
-      forceRegistry.Add(autre, new ParticuleRessort(k, l0, p.Position, false));
-      liens.add(new Contact(p, autre, 1, lCable, eCable));
-    }
-    
-    membre = (Particule[]) append(membre, p);
+    membre = (Particule[]) append(membre, forceRegistry);
     nbMembre++;
   }
+  
+  
+  
+  public void Split(char keyPressed, float dt)
+  {
+    print("Split");
+    // Remove des ressorts
+    int mid = nbMembre/2;
+    for (int i = 0; i < mid ; i++){
+      for (int j = mid; j < nbMembre ; j++){
+        //forceRegistry.Remove(membre[i], forceRegistry);
+      }
+    }
+  }
+  
+  
+  
 }
