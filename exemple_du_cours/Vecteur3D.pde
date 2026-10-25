@@ -21,6 +21,28 @@ class Vecteur3D {
     z -= vector.z;
   }
   
+  Vecteur3D GetSubstract(Vecteur3D vector) {
+    float x = this.x - vector.x;
+    float y = this.y - vector.y;
+    float z = this.z - vector.z;
+    return new Vecteur3D(x , y , z);
+  } 
+  
+  Vecteur3D GetAdd(Vecteur3D vector) {
+    float x = this.x + vector.x;
+    float y = this.y + vector.y;
+    float z = this.z + vector.z;
+    return new Vecteur3D(x , y , z);
+  }   
+  
+  Vecteur3D GetMultiply(Vecteur3D vector) {
+    float x = this.x * vector.x;
+    float y = this.y * vector.y;
+    float z = this.z * vector.z;
+    return new Vecteur3D(x , y , z);
+  }   
+  
+  
   // Multiplication avec un coef
   void Multiply(float coef) {
     x *= coef;
