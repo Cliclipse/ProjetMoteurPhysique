@@ -39,7 +39,7 @@ class Blob{
   
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
-    nbMembre = 2; // temporaire pr test
+    //nbMembre = 2; // temporaire pr test
     this.forceRegistry = new particuleForceRegistry();
     this.membre = new Particule[nbMembre];
     rayon = rayonPart;
@@ -57,8 +57,8 @@ class Blob{
         
         for (int j = 0; j<i ; j++){         
           if (i != j){
-            //forceRegistry.Add(membre[i],new ParticuleRessort(kBlob,l0,vecteurNul,true));
-            //forceRegistry.Add(membre[j],new ParticuleRessort(kBlob,l0,vecteurNul,true));
+            forceRegistry.Add(membre[i],new ParticuleRessortParticule(kBlob,l0,membre[j],true));
+            forceRegistry.Add(membre[j],new ParticuleRessortParticule(kBlob,l0,membre[i],true));
             //liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
           }
         }
