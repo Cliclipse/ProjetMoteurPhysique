@@ -36,8 +36,7 @@ class Particule {
 }
   
   void update(float temps) {
-    Acceleration = AccumForce;
-    Acceleration.Multiply(inverseMass);
+    Acceleration = AccumForce.GetMultiply(inverseMass);
     clearAccum();
     Integrer(temps);
   }
