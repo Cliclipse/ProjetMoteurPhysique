@@ -66,6 +66,34 @@ class ParticuleRessort extends ForceGenerator
   }
 }
 
+class ParticuleRessortParticule extends ForceGenerator
+{
+  float k;
+  float l0;
+  boolean isBungee;
+  Particule origine;
+  
+  ParticuleRessortParticule(float k, float l0, Particule origine, boolean isBungee){
+    this.k = k;
+    this.origine = origine;
+    this.l0  = l0;
+    this.isBungee = isBungee;
+  }
+  
+
+  void updateforce(Particule particule, float duration){
+    Vecteur3D l = particule.Position;
+    l.Substract(origine.Position);
+    
+    if(!isBungee || l.Norme() > l0){
+      Vecteur3D dir = l;
+      dir.Normalised();
+      dir.Multiply(k*(l0 - l.Norme()));
+      particule.AddForce(dir);
+    }
+  }
+}
+
 class ParticuleFriction extends ForceGenerator
 {
   float K1;
