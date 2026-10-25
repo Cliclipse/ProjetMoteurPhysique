@@ -48,7 +48,7 @@ class Blob{
     colorBlob = couleurPart;
     float frequenceLien = 1; //arbitraire, 1 oscillation par seconde
     this.invMassPart = invMassPart;
-
+    
     //f = (1/2pi)·√(k/m), k = m·(2pif)²
     kBlob = (1/invMassPart)* sq(TWO_PI * frequenceLien);
     
@@ -67,6 +67,8 @@ class Blob{
         membre[indexParticule].isInBlob = true;
         
         forceRegistry.Add(membre[indexParticule],new ParticuleGravity());
+
+        forceRegistry.Add(membre[indexParticule],new ParticuleFriction(2,2,3));
         
         for (int indexParticuleLiee = 0; indexParticuleLiee<indexParticule ; indexParticuleLiee++){         
           if (indexParticule != indexParticuleLiee){
