@@ -192,4 +192,9 @@ class Particule {
       b.Position.Add(dpB);
     }
   }
-}
+  
+  boolean toucheSol(Particule psol){
+    return Position.y + rayon >= psol.Position.y - 1;
+  }
+  
+}  

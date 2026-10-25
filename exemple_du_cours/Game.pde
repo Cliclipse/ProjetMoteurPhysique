@@ -1,22 +1,22 @@
 ArrayList<Particule> bullets;
 Particule target;
-Particule player;
+//Particule player;
 Blob blob;
 World world;
-int bulletType = 0;
+//int bulletType = 0;
 float dt; // duree de la frame
 int timeLastFrame; //temps actuel
 float damping = 0.95;
 UI ui;
 float gravity = 9.8;
 ParticuleGravity gravite = new ParticuleGravity();
-
+/*
 int score = 0;
 int essais = 3;
-boolean gameOver = false;
+boolean gameOver = false;*/
 boolean aNettoyer = true;
 boolean afficherFrame = false;
-
+/*
 color[] couleurs = {
   color(255, 220, 0),
   color(220, 0, 0),
@@ -26,7 +26,7 @@ color[] couleurs = {
 
 float rayonType() {
   return 2*bulletType + 5;
-}
+}*/
 
 void setup() {
   world = new World();
@@ -34,18 +34,19 @@ void setup() {
   lancerTests();
   size(1280, 720, P3D);
   noStroke();
+  /*
   bullets = new ArrayList<Particule>();
   player = new Particule(10.0, new Vecteur3D(width*0.5,height*0.5,0), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
   player.rayon = rayonType();
   player.couleur = couleurs[bulletType];
-  nouvelleCible();
+  nouvelleCible();*/
   timeLastFrame = millis();
   background(102);
-  ui = new UI(this);
-  ui.setupUI();
+  //ui = new UI(this);
+  //ui.setupUI();
 }
 
-void mousePressed() {
+/*void mousePressed() {
   if (ui.cp5.isMouseOver() || gameOver) return;
   if (mouseButton == LEFT && essais > 0){
     float coefVitesse = 30 * (4-bulletType);// coef arbitraire * scale
@@ -70,6 +71,7 @@ void mousePressed() {
     background(102);
   }
 }
+
 
 void keyPressed() {
   if (key == ' ') {
@@ -128,36 +130,40 @@ void afficherHUD() {
     textAlign(LEFT);
   }
 
-}
+}*/
 
 void draw() {
   if (aNettoyer) {
     background(60,200,255);
     aNettoyer = false;
   }
-  player.Position.x = width*0.5;
-  player.Position.y = height*0.5;
-  player.display();
+  //player.Position.x = width*0.5;
+  //player.Position.y = height*0.5;
+  //player.display();
   //target.display();
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
   
-  for (int i = bullets.size()-1; i>=0; i--){ 
-    Particule p = bullets.get(i);
-    p.update(dt);
-    p.display();
-    if (p.touche(target)) {
-      cibleTouchee();
-      break;
-    }
-    if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
-      bullets.remove(i);
-    }
+  if (keyPressed){
+    if(key == 'q' || key == 's' || key == 'd' || key == 'z') world.bob.Move(key,dt); 
   }
-  if (essais <= 0 && bullets.size() <= 0) {
-    gameOver = true;
-    aNettoyer = true;
-  }
+  
+  //for (int i = bullets.size()-1; i>=0; i--){ 
+    //Particule p = bullets.get(i);
+    //p.update(dt);
+    //p.display();
+    //if (p.touche(target)) {
+      //cibleTouchee();
+      //break;
+    //}
+    //if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
+      //bullets.remove(i);
+    //}
+  //}
+  //if (essais <= 0 && bullets.size() <= 0) {
+    //gameOver = true;
+    //aNettoyer = true;
+  //}
   
   //afficherHUD();
   
@@ -173,5 +179,8 @@ void draw() {
 
   background(60,200,255);
   world.display();
-  world.bob.DrawBlob();
+  //world.bob.DrawBlob();
+  for (Particule p : world.WorldParticule){
+    p.display(); // blob + particules libres
+  }
 }

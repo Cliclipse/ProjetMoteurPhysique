@@ -89,7 +89,7 @@ class ParticuleRessortParticule extends ForceGenerator
     if(!isBungee || l.Norme() > l0){
       Vecteur3D dir = l;
       dir.Normalised();
-      dir.Multiply(k*(l0 - l.Norme()));
+      dir.Multiply(-1*k*(l0 - l.Norme()));
       particule.AddForce(dir);
     }
   }

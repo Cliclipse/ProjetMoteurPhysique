@@ -4,7 +4,7 @@ class Blob{
   ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
-  float particulesSpeed = 5000000;
+  float particulesSpeed = 20000;
   float invMassPart;
   color colorBlob = color(255, 0, 0);
   float rayon = 0.5f;
@@ -13,6 +13,7 @@ class Blob{
   ArrayList<Contact> liens = new ArrayList<Contact>();
   float lCable = 45;   // longueur max d'un lien (câble si superieur)
   float eCable = 0.2f;
+
 
     //Fonction qui apply la physique pour chaque particule du blob
   public void ApplyPhysic(){
@@ -24,7 +25,7 @@ class Blob{
   {
     print(keyPressed);
     Vecteur3D move = new Vecteur3D(0,0,0);
-    print("test");
+    //print("test");
     
     if (key == 'q') move.x -= particulesSpeed * dt ;
     if (key == 'd') move.x += particulesSpeed * dt ;
