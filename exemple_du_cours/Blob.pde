@@ -4,7 +4,7 @@ class Blob{
   //ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
-  float particulesSpeed = 50000;
+  float particulesSpeed = 5000000;
   float invMassPart;
   color colorBlob = color(255, 0, 0);
   float rayon = 0.5f;
@@ -57,9 +57,9 @@ class Blob{
         
         for (int j = 0; j<i ; j++){         
           if (i != j){
-            forceRegistry.Add(membre[i],new ParticuleRessortParticule(kBlob,l0,membre[j],true));
-            //forceRegistry.Add(membre[j],new ParticuleRessortParticule(kBlob,l0,membre[i],true));
-            //liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
+            forceRegistry.Add(membre[i],new ParticuleRessortParticule(kBlob,l0,membre[j],false));
+            forceRegistry.Add(membre[j],new ParticuleRessortParticule(kBlob,l0,membre[i],false));
+            liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
           }
         }
       }
