@@ -4,7 +4,7 @@ class Blob{
   //ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
-  float particulesSpeed = 5000000;
+  float particulesSpeed = 250000;
   float invMassPart;
   color colorBlob = color(255, 0, 0);
   float rayon = 0.5f;
