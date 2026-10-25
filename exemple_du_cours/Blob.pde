@@ -4,7 +4,7 @@ class Blob{
   //ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
-  float particulesSpeed = 250000;
+  float particulesSpeed = 20000;
   float invMassPart;
   color colorBlob = color(255, 0, 0);
   float rayon = 0.5f;
@@ -24,7 +24,7 @@ class Blob{
   {
     print(keyPressed);
     Vecteur3D move = new Vecteur3D(0,0,0);
-    print("test");
+    //print("test");
     
     if (key == 'q') move.x -= particulesSpeed * dt ;
     if (key == 'd') move.x += particulesSpeed * dt ;
