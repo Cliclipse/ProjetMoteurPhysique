@@ -11,7 +11,7 @@ class Blob{
   float kBlob = 5f; // arbitraire
   float l0 = 5f;
   ArrayList<Contact> liens = new ArrayList<Contact>();
-  float lCable = 120;   // longueur max d'un lien (câble si superieur)
+  float lCable = 45;   // longueur max d'un lien (câble si superieur)
   float eCable = 0.2;
 
     //Fonction qui apply la physique pour chaque particule du blob
