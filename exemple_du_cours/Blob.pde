@@ -53,15 +53,15 @@ class Blob{
     kBlob = (1/invMassPart)* sq(TWO_PI * frequenceLien);
     
     for (int i = 0; i< nbMembre ; i++){
-        this.AddParticuleToBlob(new Vecteur3D(640,700,0), i);
+        Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
+        Particule p = new Particule(invMassPart, new Vecteur3D(640,700,0) , vecteurNul , vecteurNul);
+        this.AddParticuleToBlob(p, i);
     }
   }
   
   
-  public void AddParticuleToBlob(Vecteur3D positionBlob, int indexParticule ){
-        print("test");
-        Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
-        membre[indexParticule] = new Particule(invMassPart, positionBlob , vecteurNul , vecteurNul);
+  public void AddParticuleToBlob(Particule particule, int indexParticule ){
+        membre[indexParticule] = particule;
         membre[indexParticule].rayon = rayon;
         membre[indexParticule].couleur = colorBlob;
         membre[indexParticule].isInBlob = true;
@@ -97,22 +97,21 @@ class Blob{
   }
   
   
-  public void AddParticule(Particule p){
-    if (p.isInBlob) {
-      return;
-    }
-    p.isInBlob = true;
-    p.couleur = colorBlob;
-    
-    this.AddParticuleToBlob(p.Position, nbMembre);
+public void AddParticule(Particule p){
+    if (p.isInBlob) return;
 
-  
+    membre = (Particule[]) expand(membre, nbMembre + 1);
 
-    
-    membre = (Particule[]) append(membre, forceRegistry);
+    //Recrée un tableau pour rajouter un ressort
+    ParticuleRessort[][] nouveau = new ParticuleRessort[nbMembre + 1][nbMembre + 1];
+    for (int i = 0; i < nbMembre; i++)
+        for (int j = 0; j < nbMembre; j++)
+            nouveau[i][j] = ressorts[i][j];
+    ressorts = nouveau;
+
+    this.AddParticuleToBlob(p, nbMembre);
     nbMembre++;
-  }
-  
+}
   
   
   public void Split(char keyPressed, float dt)
