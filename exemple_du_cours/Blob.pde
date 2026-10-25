@@ -4,7 +4,7 @@ class Blob{
   //ParticuleRessort[][] ressorts;
   int nbMembre;
   int indexMasterParticule;
-  float particulesSpeed;
+  float particulesSpeed = 50000;
   float invMassPart;
   color colorBlob = color(255, 0, 0);
   float rayon = 0.5f;
@@ -28,8 +28,8 @@ class Blob{
     
     if (key == 'q') move.x -= particulesSpeed * dt ;
     if (key == 'd') move.x += particulesSpeed * dt ;
-    if (key == 's') move.z -= particulesSpeed * dt ;
-    if (key == 'z') move.z += particulesSpeed * dt ;
+    if (key == 's') move.z += particulesSpeed * dt ;
+    if (key == 'z') move.z -= particulesSpeed * dt ;
 
     for (int i = 0; i<nbMembre ; i++){
         membre[i].AddForce(move);
@@ -51,11 +51,11 @@ class Blob{
         membre[i].couleur = colorBlob;
         membre[i].isInBlob = true;
         
-        ressorts.Add(membre[i],new ParticuleGravity());
+        //ressorts.Add(membre[i],new ParticuleGravity());
         
         for (int j = 0; j<i ; j++){
           if (i != j){
-            ressorts.Add(membre[i],new ParticuleRessort(kBlob,l0,membre[j].Position,true));
+            //ressorts.Add(membre[i],new ParticuleRessort(kBlob,l0,membre[j].Position,true));
             //ressorts.Add(membre[j],new ParticuleRessort(kBlob,l0,membre[i].Position,true));
             liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
           }

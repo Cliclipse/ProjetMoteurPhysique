@@ -29,7 +29,7 @@ class particuleForceRegistry{
 }
 
 class ParticuleGravity extends ForceGenerator{
-  Vecteur3D gravity = new Vecteur3D(0,-9.81,0);
+  Vecteur3D gravity = new Vecteur3D(0,9.81,0);
   
   void updateforce(Particule particule, float duration){
     gravity.Multiply(particule.getMass());

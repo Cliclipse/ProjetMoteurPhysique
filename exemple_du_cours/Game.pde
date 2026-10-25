@@ -85,7 +85,7 @@ void keyPressed() {
   }
   
   //Déplacement du slime
-  //if(key == 'q' || key == 's' || key == 'd' || key == 'z') blob.Move(key); 
+  if(key == 'q' || key == 's' || key == 'd' || key == 'z') world.bob.Move(key,dt); 
 }
 
 void nouvelleCible() {
