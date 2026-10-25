@@ -24,7 +24,7 @@ class Blob{
   {
     print(keyPressed);
     Vecteur3D move = new Vecteur3D(0,0,0);
-    
+    print("test");
     
     if (key == 'q') move.x -= particulesSpeed * dt ;
     if (key == 'd') move.x += particulesSpeed * dt ;
@@ -39,7 +39,6 @@ class Blob{
   
   
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
-    nbMembre = 10; // temporaire pr test
     this.forceRegistry = new particuleForceRegistry();
     this.membre = new Particule[nbMembre];
     rayon = rayonPart;
@@ -53,12 +52,12 @@ class Blob{
         membre[i].couleur = colorBlob;
         membre[i].isInBlob = true;
         
-        //forceRegistry.Add(membre[i],new ParticuleGravity());
+        forceRegistry.Add(membre[i],new ParticuleGravity());
         
         for (int j = 0; j<i ; j++){         
           if (i != j){
-            forceRegistry.Add(membre[i],new ParticuleRessortParticule(kBlob,l0,membre[j],false));
-            forceRegistry.Add(membre[j],new ParticuleRessortParticule(kBlob,l0,membre[i],false));
+            forceRegistry.Add(membre[i],new ParticuleRessortParticule(kBlob,l0,membre[j],true));
+            forceRegistry.Add(membre[j],new ParticuleRessortParticule(kBlob,l0,membre[i],true));
             liens.add(new Contact(membre[i], membre[j], 1, lCable, eCable));
           }
         }
@@ -97,7 +96,7 @@ class Blob{
       Vecteur3D d = new Vecteur3D(p.Position.x - autre.Position.x, p.Position.y - autre.Position.y, p.Position.z - autre.Position.z);
 
       // l0 (longueur au repos): distance au moment de l ajout
-      float l0 = max(d.Norme(), p.rayon + autre.rayon);
+      l0 = max(d.Norme(), p.rayon + autre.rayon);
 
       forceRegistry.Add(p, new ParticuleRessort(k, l0, autre.Position, false)); 
       forceRegistry.Add(autre, new ParticuleRessort(k, l0, p.Position, false));
