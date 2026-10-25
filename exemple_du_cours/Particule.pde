@@ -89,7 +89,7 @@ class Particule {
 
     ArrayList<Contact> contacts = new ArrayList<Contact>();
 
-    // Sphères : interpénétrations, toutes les paires O(n²)
+    // Sphères : interpénétrations
     for(int i = 0; i < n; i++){
       Particule pi = w.WorldParticule[i];
       for(int j = 0; j < i; j++){
@@ -113,6 +113,14 @@ class Particule {
     for(Contact c : liens){
       if(c.type == 1 && c.penetration() <= 0) continue; // câble détendu : aucun effet
       contacts.add(c);
+    }
+    
+    // Sol
+    for(int i = 0; i < n; i++){
+      Particule p = w.WorldParticule[i];
+      if(p.Position.y + p.rayon >= w.sol.Position.y){
+        contacts.add(new Contact(p, w.sol, 3, 0, 0.3));
+      }
     }
 
     //on résout les 2n contacts les plus "important" (vitesse relative plus grande)

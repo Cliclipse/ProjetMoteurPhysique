@@ -1,6 +1,6 @@
 class Contact {
   Particule a, b;
-  int type;        // 0: classique, 1: câble, 2: tige
+  int type;        // 0: classique, 1: câble, 2: tige, 3: sol
   float longueur;  // L (câble ou tige)
   float e;  // coefficient de restitution
 
@@ -18,6 +18,9 @@ class Contact {
   }
 
   Vecteur3D normale(){
+    if (type == 3){
+      return new Vecteur3D(0, 1, 0); // normale vers le sol
+    }
     Vecteur3D n = new Vecteur3D(b.Position.x - a.Position.x, b.Position.y - a.Position.y, b.Position.z - a.Position.z);
     if (n.Norme() < 0.0001){
       // centres confondus, on prend une direction aleatoire pour la séparation
@@ -37,6 +40,9 @@ class Contact {
   }
 
   float penetration(){
+    if (type == 3){ //interpenetration dans le sol
+      return (a.Position.y + a.rayon) - b.Position.y;
+    }
     float l = dist();
     if (type == 0) {
       return a.rayon + b.rayon - l;
