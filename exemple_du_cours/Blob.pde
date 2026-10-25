@@ -53,7 +53,7 @@ class Blob{
         for (int j = 0; j<i ; j++){
           if (i != j){
             ressorts.Add(membre[i],new ParticuleRessort(kBlob,l0,membre[j].Position,true));
-            ressorts.Add(membre[j],new ParticuleRessort(kBlob,l0,membre[i].Position,true));
+            //ressorts.Add(membre[j],new ParticuleRessort(kBlob,l0,membre[i].Position,true));
           }
         }
     }
