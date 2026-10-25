@@ -173,5 +173,8 @@ void draw() {
 
   background(60,200,255);
   world.display();
-  world.bob.DrawBlob();
+  //world.bob.DrawBlob();
+  for (Particule p : world.WorldParticule){
+    p.display(); // blob + particules libres
+  }
 }
