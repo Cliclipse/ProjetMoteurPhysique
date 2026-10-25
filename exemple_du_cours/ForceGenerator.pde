@@ -56,7 +56,7 @@ class ParticuleRessort extends ForceGenerator
 
   void updateforce(Particule particule, float duration){
     Vecteur3D l = particule.Position;
-    l.Substract(origine);
+    l = l.GetSubstract(origine);
     
     if(!isBungee || l.Norme() > l0){
       Vecteur3D dir = l;
@@ -84,7 +84,7 @@ class ParticuleRessortParticule extends ForceGenerator
 
   void updateforce(Particule particule, float duration){
     Vecteur3D l = particule.Position;
-    l.Substract(origine.Position);
+    l = l.GetSubstract(origine.Position);
     
     if(!isBungee || l.Norme() > l0){
       Vecteur3D dir = l;
@@ -117,7 +117,7 @@ class ParticuleFriction extends ForceGenerator
     }
     else{
       friction.Normalised();
-      friction.Multiply(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme());
+      friction = friction.GetMultiply(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme());
       particule.AddForce(friction);
     }
   }

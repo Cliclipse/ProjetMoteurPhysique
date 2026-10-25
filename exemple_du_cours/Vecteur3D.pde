@@ -35,10 +35,10 @@ class Vecteur3D {
     return new Vecteur3D(x , y , z);
   }   
   
-  Vecteur3D GetMultiply(Vecteur3D vector) {
-    float x = this.x * vector.x;
-    float y = this.y * vector.y;
-    float z = this.z * vector.z;
+  Vecteur3D GetMultiply(float vector) {
+    float x = this.x * vector;
+    float y = this.y * vector;
+    float z = this.z * vector;
     return new Vecteur3D(x , y , z);
   }   
   
