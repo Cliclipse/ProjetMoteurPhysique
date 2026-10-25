@@ -41,8 +41,8 @@ void setup() {
   nouvelleCible();
   timeLastFrame = millis();
   background(102);
-  ui = new UI(this);
-  ui.setupUI();
+  //ui = new UI(this);
+  //ui.setupUI();
 }
 
 void mousePressed() {
@@ -135,29 +135,29 @@ void draw() {
     background(60,200,255);
     aNettoyer = false;
   }
-  player.Position.x = width*0.5;
-  player.Position.y = height*0.5;
-  player.display();
+  //player.Position.x = width*0.5;
+  //player.Position.y = height*0.5;
+  //player.display();
   //target.display();
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
   
-  for (int i = bullets.size()-1; i>=0; i--){ 
-    Particule p = bullets.get(i);
-    p.update(dt);
-    p.display();
-    if (p.touche(target)) {
-      cibleTouchee();
-      break;
-    }
-    if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
-      bullets.remove(i);
-    }
-  }
-  if (essais <= 0 && bullets.size() <= 0) {
-    gameOver = true;
-    aNettoyer = true;
-  }
+  //for (int i = bullets.size()-1; i>=0; i--){ 
+    //Particule p = bullets.get(i);
+    //p.update(dt);
+    //p.display();
+    //if (p.touche(target)) {
+      //cibleTouchee();
+      //break;
+    //}
+    //if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
+      //bullets.remove(i);
+    //}
+  //}
+  //if (essais <= 0 && bullets.size() <= 0) {
+    //gameOver = true;
+    //aNettoyer = true;
+  //}
   
   //afficherHUD();
   
