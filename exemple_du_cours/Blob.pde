@@ -54,7 +54,7 @@ class Blob{
     this.invMassPart = invMassPart;
     
     //f = (1/2pi)·√(k/m), k = m·(2pif)²
-    kBlob = (1/invMassPart)* sq(TWO_PI * frequenceLien);
+    kBlob = (1/invMassPart)* sq(TWO_PI * frequenceLien) ;
     
     for (int i = 0; i< nbMembre ; i++){
         Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
@@ -137,11 +137,11 @@ public void AddParticule(Particule p){
       for (int j = mid; j < nbMembre ; j++){
         forceRegistry.Remove(membre[i], ressorts[i][j]);
         forceRegistry.Remove(membre[j], ressorts[j][i]);
+        liens[i][j] = null;
+        liens[j][i] = null;
+        
       }
     }
-    
-    //Remove des liens
-    //liens.remove(i * j );
   }
   
   //Permet à partir de la matrice de lien de renvoyer un tableau simple de lien qui sera compatible pour le detect collision

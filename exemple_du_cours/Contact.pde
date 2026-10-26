@@ -52,9 +52,7 @@ class Contact {
     }
     return abs(l - longueur); // tige : écart à la longueur fixe
   }
-  
-  
-  
+ 
   
   
 }
