@@ -122,6 +122,9 @@ class ParticuleFriction extends ForceGenerator
       if(particule.toucheSol(sol)){
         friction = friction.GetMultiply(-1*(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme()));
       }
+      else{
+        friction = friction.GetMultiply(-1*(1*particule.Vitesse.Norme() + 1*particule.Vitesse.Norme()));
+      }
       particule.AddForce(friction);
     }
   }
