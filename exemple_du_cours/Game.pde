@@ -146,6 +146,7 @@ void draw() {
   
   if (keyPressed){
     if(key == 'q' || key == 's' || key == 'd' || key == 'z') world.bob.Move(key,dt); 
+    if(key == ' ') world.bob.Split();
   }
   
   //for (int i = bullets.size()-1; i>=0; i--){ 
@@ -175,7 +176,7 @@ void draw() {
     p.clearAccum();
   }
   //collisions
-  world.WorldParticule[0].detectCollisions(dt, world, gravite, world.bob, world.bob.liens);
+  world.WorldParticule[0].detectCollisions(dt, world, gravite, world.bob, world.bob.transformLiensTab());
 
   background(60,200,255);
   world.display();
