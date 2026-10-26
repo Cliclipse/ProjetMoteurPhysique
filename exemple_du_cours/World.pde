@@ -12,11 +12,11 @@ class World{
   float[][] spawn = {{150, 0}, {350, -200}, {900, -100}, {1100, 150}, {640, -350}, {250, 100}, {500, -300}, {800,  120}, {1000, -250}, {1200, -50}}; // positions fixes sur le sol
   
   void Setup(){
-    bob = new Blob(15,0.5,10,color(255,60,60)); 
+    sol = new Particule(0, new Vecteur3D(0, height - groundDimensions.y/2, 0), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
+    bob = new Blob(15,0.5,10,color(255,60,60),this); 
     camParticule = new Particule(0.5, new Vecteur3D(640,700,50), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
     registry = new particuleForceRegistry();
     registry.Add(camParticule, new ParticuleRessort(10,50,bob.membre[0].Position,false));
-    sol = new Particule(0, new Vecteur3D(0, height - groundDimensions.y/2, 0), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
     //bob.UpdateBlob(dt);
     //camera(640,360,650,bob.membre[0].Position.x,bob.membre[0].Position.y,bob.membre[0].Position.z,0,1,0);
     

@@ -193,7 +193,7 @@ class Particule {
     }
   }
   
-  boolean toucheSol(Particule psol){
+  public boolean toucheSol(Particule psol){
     return Position.y + rayon >= psol.Position.y - 1;
   }
   
