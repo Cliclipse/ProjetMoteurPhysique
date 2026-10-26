@@ -149,7 +149,7 @@ public void AddParticule(Particule p){
     ArrayList<Contact> tab = new ArrayList<Contact>();
     for (int i = 0; i < nbMembre ; i++){
       for (int j = 0; j < nbMembre ; j++){
-        tab.add(liens[i][j]);
+        if (liens[i][j] != null) tab.add(liens[i][j]);
       }
     }
     return tab;
