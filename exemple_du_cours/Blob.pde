@@ -2,7 +2,9 @@ class Blob{
   World world;
   Particule[] membre;
   particuleForceRegistry forceRegistry;
-  ParticuleRessort[][] ressorts;
+  ParticuleRessort[][] ressorts; //Obligé de faire ces atrocités, sinon je peux rien supprimer, pas moyen de supprimer un lien ou ressorts dans les accumulators
+  Contact liens[][];
+
   int nbMembre;
   int indexMasterParticule;
   float particulesSpeed = 20000;
@@ -11,7 +13,6 @@ class Blob{
   float rayon = 0.5f;
   float kBlob = 5f; // arbitraire
   float l0 = 1f;
-  ArrayList<Contact> liens = new ArrayList<Contact>();
   float lCable = 45;   // longueur max d'un lien (câble si superieur)
   float eCable = 0.2f;
 
@@ -43,6 +44,7 @@ class Blob{
   Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart, World world){
     this.world = world;
     ressorts = new ParticuleRessort[nbMembre][nbMembre]; 
+    liens = new Contact[nbMembre][nbMembre];
     this.forceRegistry = new particuleForceRegistry();
     this.membre = new Particule[nbMembre];
     rayon = rayonPart;
@@ -80,7 +82,7 @@ class Blob{
             forceRegistry.Add(membre[indexParticule], ressorts[indexParticule][indexParticuleLiee]);
             forceRegistry.Add(membre[indexParticuleLiee], ressorts[indexParticuleLiee][indexParticule]);
             
-            liens.add(new Contact(membre[indexParticule], membre[indexParticuleLiee], 1, lCable, eCable));
+            liens[indexParticule][indexParticuleLiee] = new Contact(membre[indexParticule], membre[indexParticuleLiee], 1, lCable, eCable);          
           }
         }
       }
@@ -106,30 +108,52 @@ public void AddParticule(Particule p){
 
     membre = (Particule[]) expand(membre, nbMembre + 1);
 
-    //Recrée un tableau pour rajouter un ressort
-    ParticuleRessort[][] nouveau = new ParticuleRessort[nbMembre + 1][nbMembre + 1];
+    //Recrée un tableau pour rajouter un ressort ou liens. Lourd
+    ParticuleRessort[][] nouveauRessort = new ParticuleRessort[nbMembre + 1][nbMembre + 1];
+    Contact[][] nouveauLien = new Contact[nbMembre + 1][nbMembre + 1];
+
     for (int i = 0; i < nbMembre; i++)
         for (int j = 0; j < nbMembre; j++)
-            nouveau[i][j] = ressorts[i][j];
-    ressorts = nouveau;
+         {
+            nouveauRessort[i][j] = ressorts[i][j];
+            nouveauLien[i][j] = liens[i][j];
+         }
+
+
+    liens = nouveauLien;
+    ressorts = nouveauRessort;
 
     this.AddParticuleToBlob(p, nbMembre);
     nbMembre++;
 }
   
   
-  public void Split(char keyPressed, float dt)
+  public void Split()
   {
     print("Split");
     // Remove des ressorts
     int mid = nbMembre/2;
     for (int i = 0; i < mid ; i++){
       for (int j = mid; j < nbMembre ; j++){
-        //forceRegistry.Remove(membre[i], forceRegistry);
+        forceRegistry.Remove(membre[i], ressorts[i][j]);
+        forceRegistry.Remove(membre[j], ressorts[j][i]);
       }
     }
+    
+    //Remove des liens
+    //liens.remove(i * j );
   }
   
+  //Permet à partir de la matrice de lien de renvoyer un tableau simple de lien qui sera compatible pour le detect collision
+  ArrayList<Contact> transformLiensTab(){
+    ArrayList<Contact> tab = new ArrayList<Contact>();
+    for (int i = 0; i < nbMembre ; i++){
+      for (int j = 0; j < nbMembre ; j++){
+        if (liens[i][j] != null) tab.add(liens[i][j]);
+      }
+    }
+    return tab;
+  }
   
   
 }
