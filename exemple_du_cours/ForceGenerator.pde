@@ -29,7 +29,7 @@ class particuleForceRegistry{
 }
 
 class ParticuleGravity extends ForceGenerator{
-  Vecteur3D gravity = new Vecteur3D(0,9.81,0);
+  Vecteur3D gravity = new Vecteur3D(0,9.81*10,0);
   
   void updateforce(Particule particule, float duration){
     Vecteur3D f = new Vecteur3D(gravity.x, gravity.y, gravity.z);
