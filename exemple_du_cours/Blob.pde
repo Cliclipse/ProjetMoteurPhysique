@@ -57,7 +57,7 @@ class Blob{
     for (int i = 0; i< nbMembre ; i++){
         Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
         Particule p = new Particule(invMassPart, new Vecteur3D(640,700,0) , vecteurNul , vecteurNul);
-        forceRegistry.Add(p,new ParticuleFriction(2,2,3,this.world.sol));
+        forceRegistry.Add(p,new ParticuleFriction(50,50,3,this.world.sol));
         this.AddParticuleToBlob(p, i);
     }
   }

@@ -39,6 +39,7 @@ class World{
   
   void display(){
     pushMatrix();
+    text("Nombre de particules dans le blob : " + bob.nbMembre, width-260, 35);
     translate(width/2, height, -100);
     fill(color(60,255,60));
     box(groundDimensions.x,groundDimensions.y,groundDimensions.z);
