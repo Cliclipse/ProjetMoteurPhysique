@@ -100,24 +100,28 @@ class ParticuleFriction extends ForceGenerator
   float K1;
   float K2;
   float mus;
+  Particule sol;
   
-  ParticuleFriction(float K1, float K2, float mus){
+  ParticuleFriction(float K1, float K2, float mus, Particule sol){
     this.K1 = K1;
     this.K2 = K2;
     this.mus = mus;
+    this.sol = sol;
   }
   
   void updateforce(Particule particule, float duration){
     Vecteur3D friction = new Vecteur3D(particule.Vitesse.x,particule.Vitesse.y,particule.Vitesse.z);
     if(friction.Norme() <= 0.001){ // ~vitesse nulle
-      float Norme = mus*9.81*particule.getMass();
+      float Norme = mus*98.1*particule.getMass();
       Vecteur3D dir = new Vecteur3D(-1,0,0);
       dir.Multiply(Norme);
       particule.AddForce(dir);
     }
     else{
       friction.Normalised();
-      friction = friction.GetMultiply(-1*(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme()));
+      if(particule.toucheSol(sol)){
+        friction = friction.GetMultiply(-1*(K1*particule.Vitesse.Norme() + K2*particule.Vitesse.Norme()));
+      }
       particule.AddForce(friction);
     }
   }

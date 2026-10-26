@@ -1,4 +1,5 @@
 class Blob{
+  World world;
   Particule[] membre;
   particuleForceRegistry forceRegistry;
   ParticuleRessort[][] ressorts;
@@ -39,7 +40,8 @@ class Blob{
    //Ajout à la particule maitre dans son accumulator de force une certaine force vers la droite.
   
   
-  Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart){
+  Blob(int nbMembre, float invMassPart, float rayonPart, color couleurPart, World world){
+    this.world = world;
     ressorts = new ParticuleRessort[nbMembre][nbMembre]; 
     this.forceRegistry = new particuleForceRegistry();
     this.membre = new Particule[nbMembre];
@@ -55,6 +57,7 @@ class Blob{
     for (int i = 0; i< nbMembre ; i++){
         Vecteur3D vecteurNul = new Vecteur3D(0,0,0);
         Particule p = new Particule(invMassPart, new Vecteur3D(640,700,0) , vecteurNul , vecteurNul);
+        forceRegistry.Add(p,new ParticuleFriction(2,2,3,this.world.sol));
         this.AddParticuleToBlob(p, i);
     }
   }
@@ -68,7 +71,6 @@ class Blob{
         
         forceRegistry.Add(membre[indexParticule],new ParticuleGravity());
 
-        forceRegistry.Add(membre[indexParticule],new ParticuleFriction(2,2,3));
         
         for (int indexParticuleLiee = 0; indexParticuleLiee<indexParticule ; indexParticuleLiee++){         
           if (indexParticule != indexParticuleLiee){
