@@ -1,5 +1,9 @@
 class Particule {
   Vecteur3D Position;
+  
+  Vecteur3D LocalPosition; //Utile pour les particules d'un corps rigide
+  CorpsRigide corpsRigideBelonged;
+  
   Vecteur3D Vitesse;
   Vecteur3D Acceleration;
   float inverseMass;
@@ -52,4 +56,18 @@ class Particule {
     float r = rayon + autre.rayon;
     return d.NormeCarre() <= r*r;
   }
+  
+  void setGlobalPositionWithLocal(){
+    if (corpsRigideBelonged == null) return;
+    
+    Vecteur3D localPositionWithRotation = corpsRigideBelonged.Rotation.RotateVecteurAndGet(LocalPosition);
+    Position = corpsRigideBelonged.gravityCenter.GetAdd(localPositionWithRotation);
+  }
+  
+  void SetLocalPositionWithGlobal(){ //Utilisé à la création d'un Corps Rigide donc prend pas en compte les rotas
+       if (corpsRigideBelonged == null) return;
+
+    LocalPosition = Position.GetSubstract(corpsRigideBelonged.gravityCenter);
+  }
+  
 }
