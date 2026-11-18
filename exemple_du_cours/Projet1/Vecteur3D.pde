@@ -91,4 +91,11 @@ class Vecteur3D {
     float z = this.z * vector;
     return new Vecteur3D(x , y , z);
   }   
+  
+    Vecteur3D GetDivide(float vector) {
+    float x = this.x / vector;
+    float y = this.y / vector;
+    float z = this.z / vector;
+    return new Vecteur3D(x , y , z);
+  }   
 }
