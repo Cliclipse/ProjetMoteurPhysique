@@ -44,19 +44,39 @@ class Matrix3{
     float det = c[0]*c[4]*c[8] + c[1]*c[5]*c[6] + c[2]*c[3]*c[7] - c[2]*c[4]*c[6] - c[1]*c[3]*c[8] - c[5]*c[0]*c[7];
     return det;
   }
-  /*
+  
   Matrix3 InvMat(){
     float det = GetDet();
-    if(abs(GetDet())<0.0001){
+    if(abs(det)<0.000000001){
       return null;
     }
-    Matrix3 inv = new Matrix3(contenu);
-    return inv.GetProdCoef(1.0/det);
-  }*/
+    float[] c = contenu;
+    float[] inv = {(c[4]*c[8] - c[5]*c[7])/det, -(c[1]*c[8] - c[2]*c[7])/det, (c[1]*c[5] - c[2]*c[4])/det,
+                   -(c[3]*c[8] - c[5]*c[6])/det, (c[0]*c[8] - c[2]*c[6])/det, -(c[0]*c[5] - c[2]*c[3])/det,
+                   (c[3]*c[7] - c[4]*c[6])/det, -(c[1]*c[7] - c[1]*c[6])/det, (c[0]*c[4] - c[1]*c[3])/det};
+    return new Matrix3(inv);
+  }
+  
+  Matrix3 Transpose(){
+    float[] c = contenu;
+    return new Matrix3(new float[]{c[0], c[3], c[6],
+                                   c[1], c[4], c[7],
+                                   c[2], c[5], c[8]});
+  }
+  
+  Vecteur3D Mv(Vecteur3D v){
+    float[] c = contenu;
+    return new Vecteur3D(c[0]*v.x + c[1]*v.y + c[2]*v.z, c[3]*v.x + c[4]*v.y + c[5]*v.z, c[6]*v.x + c[7]*v.y + c[8]*v.z);
+  }
+  
 }
 
 class Matrix4{
   float[] contenu;
+  
+  Matrix4(){
+    this.contenu = new float[]{0,0,0,0,0,0,0,0,0,0,0,0};
+  }
   
   Matrix4(float[] contenu){
     float[] copy = new float[contenu.length];
@@ -98,7 +118,30 @@ class Matrix4{
     return det;
   }
   
-  Matrix4(){
-    this.contenu = new float[]{0,0,0,0,0,0,0,0,0,0,0,0};
+  Matrix4 InvMat(){
+    float det = GetDet();
+    if(abs(det)<0.000000001){
+      return null;
+    }
+    float[] c = contenu;
+    Matrix3 A = new Matrix3(new float[]{c[0], c[1], c[2], c[4], c[5], c[6], c[8], c[9], c[10]});
+    Matrix3 invA = A.InvMat();
+    float[] a = invA.contenu;
+    return new Matrix4(new float[]{a[0], a[1], a[2], -(a[0]*c[3] + a[1]*c[7] + a[2]*c[11]),
+                                   a[3], a[4], a[5], -(a[3]*c[3] + a[4]*c[7] + a[5]*c[11]),
+                                   a[6], a[7], a[8], -(a[6]*c[3] + a[7]*c[7] + a[8]*c[11])
+    });
+  }
+  
+  Matrix4 Transpose(){ //on ne transpose que le bloc 3*3, transposer la partie translation n'a pas de sens
+    float[] c = contenu;
+    return new Matrix4(new float[]{c[0], c[4], c[8], c[3],
+                                   c[1], c[5], c[9], c[7],
+                                   c[2], c[6], c[10], c[11]});
+  }
+  
+  Vecteur3D Mv(Vecteur3D v){
+    float[] c = contenu;
+    return new Vecteur3D(c[0]*v.x + c[1]*v.y + c[2]*v.z + c[3], c[4]*v.x + c[5]*v.y + c[6]*v.z + c[7], c[8]*v.x + c[9]*v.y + c[10]*v.z + c[11]);
   }
 }
