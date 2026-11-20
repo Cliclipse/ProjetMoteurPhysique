@@ -16,24 +16,32 @@ class CorpsRigide{
   
   
   
-  CorpsRigide(Vecteur3D CentreGeometrique , float demiLongeur, float demiLargeur, float demiHauteur, float mass, int type)
+  CorpsRigide(Vecteur3D CentreGeometrique , float demiLongeur, float demiLargeur, float demiHauteur, float mass, int type, Vecteur3D impulse)
   {
+    gravityCenter = new Vecteur3D(0,0,0);
     //forceManager = new ForceManager();
     //torqueManager = new TorqueManager();
     if(type == 0){
       ElemDeMasse[0] = new Particule(10/mass, CentreGeometrique, new Vecteur3D(0,0,0));
       ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,-1*demiLargeur,-1*demiHauteur)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLargeur,0,0)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiHauteur,0,0)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongeur,0,0)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLargeur,0,0)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiHauteur,0,0)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,0,0)),new Vecteur3D(0,0,0));
-      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[2] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,-1*demiLargeur,demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[3] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,demiLargeur,-1*demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[4] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,demiLargeur,demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[5] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongeur,-1*demiLargeur,-1*demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[6] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongeur,-1*demiLargeur,demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[7] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongeur,demiLargeur,-1*demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[8] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongeur,demiLargeur,demiHauteur)),new Vecteur3D(0,0,0));
     }
     for(int i = 0; i<10; i++){
       ElemDeMasse[i].corpsRigideBelonged = this;
       ElemDeMasse[i].SetLocalPositionWithGlobal();
+      gravityCenter.Add(ElemDeMasse[i].Position.GetMultiply(ElemDeMasse[i].getMass()));
+    }
+    gravityCenter.Divide(10);
+    if(type == 0){
+      ElemDeMasse[9] = new Particule(10/mass, gravityCenter, impulse);
+      ElemDeMasse[9].corpsRigideBelonged = this;
+      ElemDeMasse[9].SetLocalPositionWithGlobal();
     }
   }
   
