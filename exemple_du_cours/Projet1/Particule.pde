@@ -11,7 +11,7 @@ class Particule {
   int couleur = color(0);
   Vecteur3D AccumForce = new Vecteur3D(0,0,0);
   
-  Particule(float invMass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){
+  Particule(float invMass, Vecteur3D posInit, Vecteur3D vitesseInit){
     this.inverseMass = invMass;
     Position = posInit;
     Vitesse = vitesseInit;

@@ -11,21 +11,29 @@ class CorpsRigide{
   Vecteur3D currentRotationVelocity;
   
   // Gère les forces et les torques pour upadate l'état du corps
-  ForceManager forceManager;
-  TorqueManager torqueManager;
+  //ForceManager forceManager;
+  //TorqueManager torqueManager;
   
   
   
-  CorpsRigide(Vecteur3D newGravityCenter , Particule[] newElemDeMasse, int nbElemMasse )
+  CorpsRigide(Vecteur3D CentreGeometrique , float demiLongeur, float demiLargeur, float demiHauteur, float mass, int type)
   {
-    gravityCenter = newGravityCenter;
     //forceManager = new ForceManager();
-    torqueManager = new TorqueManager();
-    
-    for(int i = 0 ; i<nbElemMasse ; i++)
-    {
-      newElemDeMasse[i].corpsRigideBelonged = this;
-      newElemDeMasse[i].SetLocalPositionWithGlobal();
+    //torqueManager = new TorqueManager();
+    if(type == 0){
+      ElemDeMasse[0] = new Particule(10/mass, CentreGeometrique, new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,-1*demiLargeur,-1*demiHauteur)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLargeur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiHauteur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongeur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLargeur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiHauteur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,0,0)),new Vecteur3D(0,0,0));
+      ElemDeMasse[1] = new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongeur,0,0)),new Vecteur3D(0,0,0));
+    }
+    for(int i = 0; i<10; i++){
+      ElemDeMasse[i].corpsRigideBelonged = this;
+      ElemDeMasse[i].SetLocalPositionWithGlobal();
     }
   }
   
