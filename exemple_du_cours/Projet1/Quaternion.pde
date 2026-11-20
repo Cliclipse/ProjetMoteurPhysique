@@ -138,5 +138,31 @@ Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur, Quaternion q) {
 }
   
   
+  Matrix3 GetMatrixWithQuaternion(Quaternion q){
+    Quaternion qNorm = GetNormalize(q);
+
+    float r = qNorm.r;
+    float i = qNorm.i;
+    float j = qNorm.j;
+    float k = qNorm.k;
+
+    Matrix3 m = new Matrix3();
+    m.contenu = new float[9];
+
+    m.contenu[0] = 1 - 2*y*y - 2*z*z;
+    m.contenu[1] = 2*(i*j - r*z);
+    m.contenu[2] = 2*(i*k + r*j);
+
+    m.contenu[3] = 2*(i*j + r*k);
+    m.contenu[4] = 1 - 2*i*i - 2*k*k;
+    m.contenu[5] = 2*(j*k - r*i);
+
+    m.contenu[6] = 2*(i*k - r*y);
+    m.contenu[7] = 2*(j*k + r*i);
+    m.contenu[8] = 1 - 2*i*i - 2*j*j;
+
+    return m;
+}
+  
  
 }
