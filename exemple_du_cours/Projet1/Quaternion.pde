@@ -1,6 +1,14 @@
 class Quaternion{
   float r,i,j,k;
   
+  Quaternion()
+  {
+    this.r = 0;
+    this.i = 0;
+    this.j = 0;
+    this.k = 0;
+  }
+  
   Quaternion(float reel, float i, float j, float k)
   {
     this.r = reel;
@@ -8,7 +16,8 @@ class Quaternion{
     this.j = j;
     this.k = k;
   }
-  
+   
+
   Matrix4 GetMatrix4()
   {
     float[] contenu = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -32,11 +41,7 @@ class Quaternion{
     return(retour);
   }
   
-  Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur){
-    //code retournant le vecteur avec une rota, pas encore implémentée
-    return new Vecteur3D(0,0,0); 
-  }
-  
+
   Quaternion ScalMultiplyAndGet(Quaternion q, float coef){
     q.r *= coef;
     q.i *= coef;
@@ -90,7 +95,48 @@ class Quaternion{
     return new Quaternion(r, i, j, k);
   }
 
+  float GetNorme(Quaternion q)
+  {
+    float norme = sqrt(MultiplyAndGet(q , GetConjugate(q)).r);
+    return norme;
+  }
+  
+    
+  Quaternion GetNormalize(Quaternion q)
+  {
+    Quaternion newQ = new Quaternion();
+    newQ = ScalDivideAndGet(q , GetNorme(q));    
+    return newQ;
+  }
+  
+  Quaternion GetInverse(Quaternion q)
+  {
+    Quaternion newQ = new Quaternion();
+    newQ = ScalDivideAndGet(GetConjugate(q), GetNorme(q));
+    return newQ;
+  }
+  
+   Quaternion GetRotationQuaternion(Vecteur3D vecteur , float theta)
+  {
+    float arg = theta/2; 
+    float r = cos(arg);
+    float i = vecteur.x * sin(arg);
+    float j = vecteur.y * sin(arg);
+    float k = vecteur.z * sin(arg);
+    Quaternion newQ = new Quaternion(r, i, j, k);
+    return newQ;
+  }
+  
+Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur, Quaternion q) {
+    Quaternion qNormalized = GetNormalize(q);
+    Quaternion qNormalizedConj = GetConjugate(qNormalized);
+
+    Quaternion r = new Quaternion(0, vecteur.x, vecteur.y, vecteur.z); //Evite la matrice 4-3
+    Quaternion rRot = MultiplyAndGet(MultiplyAndGet(qNormalized, r), qNormalizedConj);     // r rot = qrot, r, qrot*
+    
+    return new Vecteur3D(rRot.i, rRot.j, rRot.k);
+}
   
   
-  
+ 
 }
