@@ -2,7 +2,9 @@ class Matrix3{
   float[] contenu;
   
   Matrix3(float[] contenu){
-    this.contenu = contenu;
+    float[] copy = new float[contenu.length];
+    arrayCopy(contenu, copy);
+    this.contenu = copy;
   }
   
   Matrix3 GetAdd(Matrix3 other){
