@@ -30,7 +30,7 @@ void setup() {
   size(1280, 720, P3D);
   noStroke();
   bullets = new ArrayList<Particule>();
-  player = new Particule(10.0, new Vecteur3D(width*0.5,height*0.5,0), new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
+  player = new Particule(10.0, new Vecteur3D(width*0.5,height*0.5,0), new Vecteur3D(0,0,0));
   player.rayon = rayonType();
   player.couleur = couleurs[bulletType];
   nouvelleCible();
@@ -52,7 +52,7 @@ void mousePressed() {
     float masse = 10.0 * (bulletType+1);
     Vecteur3D force = new Vecteur3D(0,gravity,0); //y vertical et vers le bas -> g selon y et positif ?
     force.Multiply(masse);
-    Particule p = new Particule(1/masse, pos0, v0, force);
+    Particule p = new Particule(1/masse, pos0, v0);
     p.rayon = rayonType();
     p.couleur = couleurs[bulletType];
     bullets.add(p);
@@ -87,7 +87,7 @@ void nouvelleCible() {
     pos.Substract(player.Position);
     } while (pos.Norme() < 150);
   pos.Add(player.Position);
-  target = new Particule(1.0, pos, new Vecteur3D(0,0,0), new Vecteur3D(0,0,0));
+  target = new Particule(1.0, pos, new Vecteur3D(0,0,0));
   target.rayon = 20;
   target.couleur = color(127,0,0);
 }
