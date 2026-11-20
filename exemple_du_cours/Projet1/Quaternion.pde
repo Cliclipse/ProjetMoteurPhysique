@@ -36,4 +36,61 @@ class Quaternion{
     //code retournant le vecteur avec une rota, pas encore implémentée
     return new Vecteur3D(0,0,0); 
   }
+  
+  Quaternion ScalMultiplyAndGet(Quaternion q, float coef){
+    q.r *= coef;
+    q.i *= coef;
+    q.j *= coef;
+    q.k *= coef;
+    return q;
+  }
+ 
+  Quaternion ScalDivideAndGet(Quaternion q, float coef){
+    q.r /= coef;
+    q.i /= coef;
+    q.j /= coef;
+    q.k /= coef;
+    return q;
+  }
+  
+  Quaternion AddAndGet(Quaternion q1, Quaternion q2){
+    float r = q1.r + q2.r;
+    float i = q1.i + q2.i;
+    float j = q1.j + q2.j;
+    float k = q1.k + q2.k;
+    Quaternion q = new Quaternion(r , i , j , k);
+    return q;
+  }
+  
+   Quaternion SubAndGet(Quaternion q1, Quaternion q2){
+    float r = q1.r - q2.r;
+    float i = q1.i - q2.i;
+    float j = q1.j - q2.j;
+    float k = q1.k - q2.k;
+    Quaternion q = new Quaternion(r , i , j , k);
+    return q;
+  }
+  
+  
+  Quaternion MultiplyAndGet(Quaternion q1, Quaternion q2)
+  {
+    float r = q1.r * q2.r - q1.i * q2.i - q1.j * q2.j - q1.k * q2.k;
+    float i = q1.r * q2.i + q1.i * q2.r + q1.j * q2.k - q1.k * q2.j;
+    float j = q1.r * q2.j - q1.i * q2.k + q1.j * q2.r + q1.k * q2.i;
+    float k = q1.r * q2.k + q1.i * q2.j - q1.j * q2.i + q1.k * q2.r;
+    return new Quaternion(r, i, j, k);
+  }
+  
+   Quaternion GetConjugate(Quaternion q)
+  {
+    float r = q.r;
+    float i = -q.i;
+    float j = -q.j;
+    float k = -q.k;
+    return new Quaternion(r, i, j, k);
+  }
+
+  
+  
+  
 }
