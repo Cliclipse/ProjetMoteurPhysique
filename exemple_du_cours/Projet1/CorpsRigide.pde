@@ -19,7 +19,7 @@ class CorpsRigide{
   CorpsRigide(Vecteur3D newGravityCenter , Particule[] newElemDeMasse, int nbElemMasse )
   {
     gravityCenter = newGravityCenter;
-    forceManager = new ForceManager();
+    //forceManager = new ForceManager();
     torqueManager = new TorqueManager();
     
     for(int i = 0 ; i<nbElemMasse ; i++)
@@ -32,8 +32,8 @@ class CorpsRigide{
   //Met à jour l'état du corps rigide à partir des forces et torques appliquées
   //Absolument pas certain que la fct est correcte faut que je vérifie avec le cours
   void Update(float dt){
-    Vecteur3D deltaVelocity = forceManager.CurrentForce.GetMultiply(dt).GetDivide(masseTotale);
-    currentVelocity.Substract(deltaVelocity);
+    //Vecteur3D deltaVelocity = forceManager.CurrentForce.GetMultiply(dt).GetDivide(masseTotale);
+    //currentVelocity.Substract(deltaVelocity);
     
     //Vecteur3D deltaRotationVelocity = torqueManager.CurrentTorque.GetMultiply(dt).GetDivide(masseTotale); //Pas encore de classe quaternion fonctionnelle
     //currentVelocity.Substract(deltaRotationVelocity);

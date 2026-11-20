@@ -9,6 +9,7 @@ class Particule {
   float inverseMass;
   float rayon = 5;
   int couleur = color(0);
+  Vecteur3D AccumForce = new Vecteur3D(0,0,0);
   
   Particule(float invMass, Vecteur3D posInit, Vecteur3D vitesseInit, Vecteur3D force){
     this.inverseMass = invMass;
@@ -20,6 +21,19 @@ class Particule {
   
   float getInvMass(){
     return(inverseMass);
+  }
+  
+  public float getMass(){
+    return (1/inverseMass);
+  }
+  
+  void AddForce(Vecteur3D force){
+    AccumForce.Add(force); 
+  }
+
+  
+  void clearAccum(){
+    AccumForce.Reset();
   }
   
   void setInvMass(float invMass){

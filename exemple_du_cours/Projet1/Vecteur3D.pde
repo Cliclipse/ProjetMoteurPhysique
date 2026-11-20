@@ -98,4 +98,10 @@ class Vecteur3D {
     float z = this.z / vector;
     return new Vecteur3D(x , y , z);
   }   
+  
+  void Reset(){
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+  }
 }
