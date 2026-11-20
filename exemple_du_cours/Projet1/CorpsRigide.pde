@@ -12,13 +12,14 @@ class CorpsRigide{
   Vecteur3D currentRotationVelocity;
   
   // Gère les forces et les torques pour upadate l'état du corps
-  //ForceManager forceManager;
+  particuleForceRegistry forceRegistry;
   //TorqueManager torqueManager;
   
   
   
   CorpsRigide(Vecteur3D CentreGeometrique , float demiLongeur, float demiLargeur, float demiHauteur, float mass, int type, Vecteur3D impulse)
   {
+    this.GeometricalCenter = CentreGeometrique;
     gravityCenter = new Vecteur3D(0,0,0);
     //forceManager = new ForceManager();
     //torqueManager = new TorqueManager();
@@ -71,7 +72,7 @@ class CorpsRigide{
       ElemDeMasse[9].corpsRigideBelonged = this;
       ElemDeMasse[9].SetLocalPositionWithGlobal();
     }
-    this.GeometricalCenter = CentreGeometrique;
+    forceRegistry.Add(ElemDeMasse[9], new ParticuleGravity());
   }
   
   //Met à jour l'état du corps rigide à partir des forces et torques appliquées
