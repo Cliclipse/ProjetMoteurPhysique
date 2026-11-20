@@ -80,7 +80,7 @@ class Particule {
   void SetLocalPositionWithGlobal(){ //Utilisé à la création d'un Corps Rigide donc prend pas en compte les rotas
        if (corpsRigideBelonged == null) return;
 
-    LocalPosition = Position.GetSubstract(corpsRigideBelonged.gravityCenter);
+    LocalPosition = Position.GetSubstract(corpsRigideBelonged.GeometricalCenter);
   }
   
 }
