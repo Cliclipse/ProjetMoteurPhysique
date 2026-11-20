@@ -15,7 +15,6 @@ class Particule {
     this.inverseMass = invMass;
     Position = posInit;
     Vitesse = vitesseInit;
-    Acceleration = new Vecteur3D(force.x, force.y, force.z);
     Acceleration.Multiply(invMass); // somme(force) = m*a donc a = somme(force)/m or une seule force donc a = force/m
   }
   
@@ -74,14 +73,14 @@ class Particule {
   void setGlobalPositionWithLocal(){
     if (corpsRigideBelonged == null) return;
     
-    Vecteur3D localPositionWithRotation = corpsRigideBelonged.Rotation.RotateVecteurAndGet(LocalPosition);
-    Position = corpsRigideBelonged.gravityCenter.GetAdd(localPositionWithRotation);
+    //Vecteur3D localPositionWithRotation = corpsRigideBelonged.Rotation.RotateVecteurAndGet(LocalPosition);
+    //Position = corpsRigideBelonged.gravityCenter.GetAdd(localPositionWithRotation);
   }
   
   void SetLocalPositionWithGlobal(){ //Utilisé à la création d'un Corps Rigide donc prend pas en compte les rotas
        if (corpsRigideBelonged == null) return;
 
-    LocalPosition = Position.GetSubstract(corpsRigideBelonged.gravityCenter);
+    LocalPosition = Position.GetSubstract(corpsRigideBelonged.GeometricalCenter);
   }
   
 }
