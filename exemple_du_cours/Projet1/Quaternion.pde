@@ -16,31 +16,6 @@ class Quaternion{
     this.j = j;
     this.k = k;
   }
-   
-
-  Matrix4 GetMatrix4()
-  {
-    float[] contenu = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    Matrix4 retour = new Matrix4(contenu);
-    retour.contenu[0] = r;
-    retour.contenu[1] = -k;
-    retour.contenu[2] = j;
-    retour.contenu[3] = i;
-    retour.contenu[4] = k;
-    retour.contenu[5] = r;
-    retour.contenu[6] = -i;
-    retour.contenu[7] = j;
-    retour.contenu[8] = -j;
-    retour.contenu[9] = i;
-    retour.contenu[10] = r;
-    retour.contenu[11] = k;
-    retour.contenu[12] = -i;
-    retour.contenu[13] = -j;
-    retour.contenu[14] = -k;
-    retour.contenu[15] = r;
-    return(retour);
-  }
-  
 
   Quaternion ScalMultiplyAndGet(Quaternion q, float coef){
     q.r *= coef;
@@ -138,5 +113,45 @@ Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur, Quaternion q) {
 }
   
   
- 
+  Matrix3 GetMatrix3WithQuaternion(Quaternion q){
+    Quaternion qNorm = GetNormalize(q);
+
+    float r = qNorm.r;
+    float i = qNorm.i;
+    float j = qNorm.j;
+    float k = qNorm.k;
+
+    Matrix3 m = new Matrix3();
+
+    m.contenu[0] = 1 - 2*j*j - 2*k*k;
+    m.contenu[1] = 2*(i*j - r*k);
+    m.contenu[2] = 2*(i*k + r*j);
+
+    m.contenu[3] = 2*(i*j + r*k);
+    m.contenu[4] = 1 - 2*i*i - 2*k*k;
+    m.contenu[5] = 2*(j*k - r*i);
+
+    m.contenu[6] = 2*(i*k - r*j);
+    m.contenu[7] = 2*(j*k + r*i);
+    m.contenu[8] = 1 - 2*i*i - 2*j*j;
+
+    return m;
+  }
+
+  Quaternion GetProdScal(Quaternion q1 , Quaternion q2){
+    Quaternion q = new Quaternion(q1.r + q2.r , q1.i + q2.i , q1.j + q2.j , q1.k + q2.k);
+    return q;
+  }
+  
+  Quaternion SLerp(Quaternion q0 , Quaternion q1 , float  t){
+    Quaternion dq = MultiplyAndGet(q1 , GetInverse(q0));
+    float alpha = acos(dq.r);
+    
+    float partieReelle = cos(t * alpha);
+    float partieComplexe = sin(t * alpha) / sin(alpha);
+    Quaternion dqt = new Quaternion(partieReelle, partieComplexe, partieComplexe, partieComplexe);
+    return MultiplyAndGet(dqt , q0);
+  }
+  
+  
 }
