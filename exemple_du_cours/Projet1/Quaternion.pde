@@ -151,7 +151,5 @@ Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur, Quaternion q) {
     float partieComplexe = sin(t * alpha) / sin(alpha);
     Quaternion dqt = new Quaternion(partieReelle, partieComplexe, partieComplexe, partieComplexe);
     return MultiplyAndGet(dqt , q0);
-  }
-  
-  
+  } 
 }
