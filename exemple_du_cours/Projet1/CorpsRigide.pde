@@ -67,6 +67,7 @@ class CorpsRigide{
       ElemDeMasse[i].corpsRigideBelonged = this;
       ElemDeMasse[i].SetLocalPositionWithGlobal();
       gravityCenter.Add(ElemDeMasse[i].Position.GetMultiply(ElemDeMasse[i].getMass()));
+    torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse[i]);
     }
     gravityCenter.Divide(10);
     if(type == 0){
@@ -98,8 +99,9 @@ class CorpsRigide{
     torqueManager.ResetJ();
     torqueManager.ResetTorque();
     Vecteur3D omega = alpha.GetMultiply(dt);
-    for(int i = 0; i<9; i++){
-      ElemDeMasse[i].Vitesse.Add(omega.ProdVectoriel(ElemDeMasse[i].Position.GetSubstract(GeometricalCenter)));
+    for(int i = 0; i<10; i++){
+      ElemDeMasse[i].Vitesse.Add(omega.ProdVectoriel(ElemDeMasse[i].Position.GetSubstract(gravityCenter)));
+    torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse[9]);
     }    
   }
   
