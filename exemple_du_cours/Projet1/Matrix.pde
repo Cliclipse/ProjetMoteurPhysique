@@ -53,7 +53,7 @@ class Matrix3{
     float[] c = contenu;
     float[] inv = {(c[4]*c[8] - c[5]*c[7])/det, -(c[1]*c[8] - c[2]*c[7])/det, (c[1]*c[5] - c[2]*c[4])/det,
                    -(c[3]*c[8] - c[5]*c[6])/det, (c[0]*c[8] - c[2]*c[6])/det, -(c[0]*c[5] - c[2]*c[3])/det,
-                   (c[3]*c[7] - c[4]*c[6])/det, -(c[1]*c[7] - c[1]*c[6])/det, (c[0]*c[4] - c[1]*c[3])/det};
+                   (c[3]*c[7] - c[4]*c[6])/det, -(c[0]*c[7] - c[1]*c[6])/det, (c[0]*c[4] - c[1]*c[3])/det};
     return new Matrix3(inv);
   }
   
@@ -133,7 +133,7 @@ class Matrix4{
     });
   }
   
-  Matrix4 Transpose(){ //on ne transpose que le bloc 3*3, transposer la partie translation n'a pas de sens
+  Matrix4 Transpose(){ //on ne transpose que le bloc 3*3
     float[] c = contenu;
     return new Matrix4(new float[]{c[0], c[4], c[8], c[3],
                                    c[1], c[5], c[9], c[7],
