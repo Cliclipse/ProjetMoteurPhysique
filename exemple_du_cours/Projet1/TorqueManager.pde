@@ -1,14 +1,27 @@
 class TorqueManager{
   
   Vecteur3D CurrentTorque;
+  Matrix3 CurrentJ;
+  
+  TorqueManager(){
+    this.CurrentTorque = new Vecteur3D(0,0,0);
+    this.CurrentJ = new Matrix3();
+  }
   
   void AddTorqueToAccumulator(CorpsRigide c, Vecteur3D force, Particule point){
     Vecteur3D r = point.Position.GetSubstract(c.GeometricalCenter);
     CurrentTorque.Add(force.ProdVectoriel(r));    
+    CurrentJ = CurrentJ.GetAdd(GetJ(point,c));
   }
   
   void ResetTorque(){
     CurrentTorque.Reset();
+  }
+  
+  void ResetJ(){
+    for(int i = 0; i<9; i++){
+      CurrentJ.contenu[i] = 0;
+    }
   }
   
   Matrix3 GetJ(Particule p, CorpsRigide c){

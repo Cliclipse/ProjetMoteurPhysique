@@ -13,7 +13,7 @@ class CorpsRigide{
   
   // Gère les forces et les torques pour upadate l'état du corps
   particuleForceRegistry forceRegistry;
-  //TorqueManager torqueManager;
+  TorqueManager torqueManager;
   
   float Longueur;
   float Largeur;
@@ -25,6 +25,7 @@ class CorpsRigide{
      Largeur = demiLargeur * 2;
      Hauteur = demiHauteur * 2;
   
+    this.torqueManager= new TorqueManager(); 
     this.GeometricalCenter = CentreGeometrique;
     gravityCenter = new Vecteur3D(0,0,0);
     //forceManager = new ForceManager();
@@ -79,6 +80,7 @@ class CorpsRigide{
       ElemDeMasse[9].SetLocalPositionWithGlobal();
     }
     forceRegistry.Add(ElemDeMasse[9], new ParticuleGravity());
+    torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse[9]);
   }
   
   
@@ -89,42 +91,18 @@ class CorpsRigide{
     box(Largeur, Hauteur, Longueur);
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   //Met à jour l'état du corps rigide à partir des forces et torques appliquées
   //Absolument pas certain que la fct est correcte faut que je vérifie avec le cours
   void Update(float dt){
-    //Vecteur3D deltaVelocity = forceManager.CurrentForce.GetMultiply(dt).GetDivide(masseTotale);
-    //currentVelocity.Substract(deltaVelocity);
-    
-    //Vecteur3D deltaRotationVelocity = torqueManager.CurrentTorque.GetMultiply(dt).GetDivide(masseTotale); //Pas encore de classe quaternion fonctionnelle
-    //currentVelocity.Substract(deltaRotationVelocity);
-    
+    Vecteur3D alpha = torqueManager.CurrentJ.InvMat().Mv(torqueManager.CurrentTorque);
+    torqueManager.ResetJ();
+    torqueManager.ResetTorque();
+    Vecteur3D omega = alpha.GetMultiply(dt);
+    for(int i = 0; i<9; i++){
+      ElemDeMasse[i].Vitesse.Add(omega.ProdVectoriel(ElemDeMasse[i].Position.GetSubstract(GeometricalCenter)));
+    }    
   }
   
-
-  void ApplyForceAndTorque(){
-    //Fct où on donnerait une force, l'endroit où on l'aplique et qui ajouterait aux accumulateurs la force et le torque généré
-  }
-  
-  
-  
-  //Pour bouger on bouge le centre de masse et de rotas pouis on appelle la fct qui calc la position global des particules à partir de leur position local, la position local change jamais
-  //PLus simple que tenir constamment la position globale
   
   
   

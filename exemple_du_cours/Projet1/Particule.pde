@@ -15,7 +15,6 @@ class Particule {
     this.inverseMass = invMass;
     Position = posInit;
     Vitesse = vitesseInit;
-    Acceleration.Multiply(invMass); // somme(force) = m*a donc a = somme(force)/m or une seule force donc a = force/m
   }
   
   float getInvMass(){
