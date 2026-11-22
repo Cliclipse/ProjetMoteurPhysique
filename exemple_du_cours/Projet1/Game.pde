@@ -4,9 +4,10 @@ Particule player;
 int bulletType = 0;
 float dt; // duree de la frame
 int timeLastFrame; //temps actuel
-float damping = 0.95;
+float damping = 0.99;
 UI ui;
 float gravity = 9.8;
+float vxCible, vyCible; // vitesse de la cible (px/s)
 
 int score = 0;
 int essais = 3;
@@ -50,7 +51,7 @@ void mousePressed() {
     v0.Multiply(coefVitesse);
     Vecteur3D pos0 = new Vecteur3D(player.Position.x,player.Position.y,player.Position.z);
     float masse = 10.0;
-    Vecteur3D force = new Vecteur3D(0,gravity,0); //y vertical et vers le bas -> g selon y et positif ?
+    Vecteur3D force = new Vecteur3D(0,gravity,0);
     force.Multiply(masse);
     CorpsRigide corps = new CorpsRigide(pos0,30.,15.,15.,masse,bulletType, v0);
     for(int i = 0; i<10; i++){
@@ -90,12 +91,18 @@ void nouvelleCible() {
     } while (pos.Norme() < 150);
   pos.Add(player.Position);
   target = new Particule(1.0, pos, new Vecteur3D(0,0,0));
-  target.rayon = 20;
+
+  // rayon et vitesse de la cible dépendent du score
+  target.rayon = max(8, 20 - score/300);
+  float vitesse = 40 + score * 0.1;
+  float angle = random(TWO_PI);
+  vxCible = cos(angle) * vitesse;
+  vyCible = sin(angle) * vitesse;
   target.couleur = color(127,0,0);
 }
 
 void cibleTouchee() {
-  score += 100 * (bulletType + 1);
+  score += 100;
   essais = 3;
   bullets.clear();
   nouvelleCible();
@@ -129,12 +136,22 @@ void draw() {
   if (aNettoyer) {
     aNettoyer = false;
   }
+  dt = (millis() - timeLastFrame)*0.001; // millisecondes en sec
+  timeLastFrame = millis();
+
+  // mouvement et le bounce de la target sur le bord de la fenêtre
+  target.Position.x += vxCible * dt;
+  target.Position.y += vyCible * dt;
+  if (target.Position.x < target.rayon)         { target.Position.x = target.rayon;          vxCible =  abs(vxCible); }
+  if (target.Position.x > width - target.rayon)  { target.Position.x = width - target.rayon;  vxCible = -abs(vxCible); }
+  if (target.Position.y < target.rayon)         { target.Position.y = target.rayon;          vyCible =  abs(vyCible); }
+  if (target.Position.y > height - target.rayon) { target.Position.y = height - target.rayon; vyCible = -abs(vyCible); }
+
   player.Position.x = width*0.5;
   player.Position.y = height*0.5;
   player.display();
   target.display();
-  dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
-  timeLastFrame = millis();
+
   for (int i = bullets.size()-1; i>=0; i--){ 
     CorpsRigide c = bullets.get(i);
     c.Update(dt);
