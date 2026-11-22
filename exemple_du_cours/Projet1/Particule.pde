@@ -15,6 +15,7 @@ class Particule {
     this.inverseMass = invMass;
     Position = posInit;
     Vitesse = vitesseInit;
+    Acceleration = new Vecteur3D(0,0,0);
   }
   
   float getInvMass(){
