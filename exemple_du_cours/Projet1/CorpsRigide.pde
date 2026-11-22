@@ -116,7 +116,7 @@ class CorpsRigide{
     for(int i = 0; i<10; i++){
       ElemDeMasse.get(i).update(dt);
       newCentreGeo.Add(ElemDeMasse.get(i).Position);
-      theta += omega.Norme()*dt;
+      theta = omega.Norme()*dt;
       torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse.get(i));
     }    
     newCentreGeo.Substract(ElemDeMasse.get(9).Position);

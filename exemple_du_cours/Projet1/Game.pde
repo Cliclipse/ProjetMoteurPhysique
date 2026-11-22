@@ -52,7 +52,7 @@ void mousePressed() {
     float masse = 10.0;
     Vecteur3D force = new Vecteur3D(0,gravity,0); //y vertical et vers le bas -> g selon y et positif ?
     force.Multiply(masse);
-    CorpsRigide corps = new CorpsRigide(pos0,10.,5.,5.,masse,bulletType, v0);
+    CorpsRigide corps = new CorpsRigide(pos0,30.,15.,15.,masse,bulletType, v0);
     for(int i = 0; i<10; i++){
       corps.ElemDeMasse.get(i).rayon = rayonType();
       corps.ElemDeMasse.get(i).couleur = couleurs[bulletType];
@@ -125,8 +125,8 @@ void afficherHUD() {
 }
 
 void draw() {
+  background(102);
   if (aNettoyer) {
-    background(102);
     aNettoyer = false;
   }
   player.Position.x = width*0.5;
