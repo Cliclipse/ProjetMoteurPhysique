@@ -1,4 +1,4 @@
-ArrayList<Particule> bullets;
+ArrayList<CorpsRigide> bullets;
 Particule target;
 Particule player;
 int bulletType = 0;
@@ -29,7 +29,7 @@ void setup() {
   lancerTests();
   size(1280, 720, P3D);
   noStroke();
-  bullets = new ArrayList<Particule>();
+  bullets = new ArrayList<CorpsRigide>();
   player = new Particule(10.0, new Vecteur3D(width*0.5,height*0.5,0), new Vecteur3D(0,0,0));
   player.rayon = rayonType();
   player.couleur = couleurs[bulletType];
@@ -49,17 +49,19 @@ void mousePressed() {
     v0.Normalised();
     v0.Multiply(coefVitesse);
     Vecteur3D pos0 = new Vecteur3D(player.Position.x,player.Position.y,player.Position.z);
-    float masse = 10.0 * (bulletType+1);
+    float masse = 10.0;
     Vecteur3D force = new Vecteur3D(0,gravity,0); //y vertical et vers le bas -> g selon y et positif ?
     force.Multiply(masse);
-    Particule p = new Particule(1/masse, pos0, v0);
-    p.rayon = rayonType();
-    p.couleur = couleurs[bulletType];
-    bullets.add(p);
+    CorpsRigide corps = new CorpsRigide(pos0,10.,5.,5.,masse,bulletType, v0);
+    for(int i = 0; i<10; i++){
+      corps.ElemDeMasse.get(i).rayon = rayonType();
+      corps.ElemDeMasse.get(i).couleur = couleurs[bulletType];
+    }
+    bullets.add(corps);
     essais--;
   }
   else if (mouseButton == RIGHT && essais == 3){
-    bulletType = (bulletType+1) % 4;
+    bulletType = (bulletType+1) % 3;
     player.rayon = rayonType();
     player.couleur = couleurs[bulletType];
     background(102);
@@ -134,16 +136,19 @@ void draw() {
   dt = (millis() - timeLastFrame)*0.001; // millisecondes -> secondes
   timeLastFrame = millis();
   for (int i = bullets.size()-1; i>=0; i--){ 
-    Particule p = bullets.get(i);
-    p.update(dt);
-    p.display();
-    if (p.touche(target)) {
-      cibleTouchee();
-      break;
-    }
-    if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
-      bullets.remove(i);
-    }
+    CorpsRigide c = bullets.get(i);
+    c.Update(dt);
+    c.Display();
+    for(int j = 0; j<10; j++){
+      Particule p = c.ElemDeMasse.get(j);
+      if (p.touche(target)) {
+        cibleTouchee();
+        break;
+      }
+      //if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
+      //  bullets.remove(i);
+      //}
+   }
   }
   if (essais <= 0 && bullets.size() <= 0) {
     gameOver = true;
