@@ -17,7 +17,8 @@ class Quaternion{
     this.k = k;
   }
 
-  Quaternion ScalMultiplyAndGet(Quaternion q, float coef){
+  Quaternion ScalMultiplyAndGet(float coef){
+    Quaternion q = new Quaternion(r, i, j, k);
     q.r *= coef;
     q.i *= coef;
     q.j *= coef;
@@ -25,7 +26,8 @@ class Quaternion{
     return q;
   }
  
-  Quaternion ScalDivideAndGet(Quaternion q, float coef){
+  Quaternion ScalDivideAndGet(float coef){
+    Quaternion q = new Quaternion(r, i, j, k);
     q.r /= coef;
     q.i /= coef;
     q.j /= coef;
@@ -33,88 +35,68 @@ class Quaternion{
     return q;
   }
   
-  Quaternion AddAndGet(Quaternion q1, Quaternion q2){
-    float r = q1.r + q2.r;
-    float i = q1.i + q2.i;
-    float j = q1.j + q2.j;
-    float k = q1.k + q2.k;
-    Quaternion q = new Quaternion(r , i , j , k);
-    return q;
+  Quaternion AddAndGet(Quaternion q){
+    float new_r = r + q.r;
+    float new_i = i + q.i;
+    float new_j = j + q.j;
+    float new_k = k + q.k;
+    return new Quaternion(new_r , new_i , new_j , new_k);
   }
   
-   Quaternion SubAndGet(Quaternion q1, Quaternion q2){
-    float r = q1.r - q2.r;
-    float i = q1.i - q2.i;
-    float j = q1.j - q2.j;
-    float k = q1.k - q2.k;
-    Quaternion q = new Quaternion(r , i , j , k);
-    return q;
+   Quaternion SubAndGet(Quaternion q){
+    float new_r = r - q.r;
+    float new_i = i - q.i;
+    float new_j = j - q.j;
+    float new_k = k - q.k;
+    return new Quaternion(new_r , new_i , new_j , new_k);
   }
   
   
-  Quaternion MultiplyAndGet(Quaternion q1, Quaternion q2)
+  Quaternion MultiplyAndGet(Quaternion q)
   {
-    float r = q1.r * q2.r - q1.i * q2.i - q1.j * q2.j - q1.k * q2.k;
-    float i = q1.r * q2.i + q1.i * q2.r + q1.j * q2.k - q1.k * q2.j;
-    float j = q1.r * q2.j - q1.i * q2.k + q1.j * q2.r + q1.k * q2.i;
-    float k = q1.r * q2.k + q1.i * q2.j - q1.j * q2.i + q1.k * q2.r;
-    return new Quaternion(r, i, j, k);
+    float new_r = r * q.r - i * q.i - j * q.j - k * q.k;
+    float new_i = r * q.i + i * q.r + j * q.k - k * q.j;
+    float new_j = r * q.j - i * q.k + j * q.r + k * q.i;
+    float new_k = r * q.k + i * q.j - j * q.i + k * q.r;
+    return new Quaternion(new_r, new_i, new_j, new_k);
   }
   
-   Quaternion GetConjugate(Quaternion q)
+   Quaternion GetConjugate()
   {
-    float r = q.r;
-    float i = -q.i;
-    float j = -q.j;
-    float k = -q.k;
-    return new Quaternion(r, i, j, k);
+    return new Quaternion(r, -i, -j, -k);
   }
 
-  float GetNorme(Quaternion q)
+  float GetNorme()
   {
-    float norme = sqrt(MultiplyAndGet(q , GetConjugate(q)).r);
+    float norme = sqrt(this.MultiplyAndGet(this.GetConjugate()).r);
     return norme;
   }
   
     
-  Quaternion GetNormalize(Quaternion q)
+  Quaternion GetNormalize()
   {
-    Quaternion newQ = new Quaternion();
-    newQ = ScalDivideAndGet(q , GetNorme(q));    
-    return newQ;
+    return this.ScalDivideAndGet(this.GetNorme());    
   }
   
-  Quaternion GetInverse(Quaternion q)
+  Quaternion GetInverse()
   {
-    Quaternion newQ = new Quaternion();
-    newQ = ScalDivideAndGet(GetConjugate(q), GetNorme(q));
-    return newQ;
+    return this.GetConjugate().ScalDivideAndGet(pow(this.GetNorme(), 2));
   }
   
-   Quaternion GetRotationQuaternion(Vecteur3D vecteur , float theta)
-  {
-    float arg = theta/2; 
-    float r = cos(arg);
-    float i = vecteur.x * sin(arg);
-    float j = vecteur.y * sin(arg);
-    float k = vecteur.z * sin(arg);
-    Quaternion newQ = new Quaternion(r, i, j, k);
-    return newQ;
-  }
   
-Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur, Quaternion q) {
-    Quaternion qNormalized = GetNormalize(q);
-    Quaternion qNormalizedConj = GetConjugate(qNormalized);
+Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur) {
+    Quaternion qNormalized = this.GetNormalize();
+    Quaternion qNormalizedConj = qNormalized.GetConjugate();
 
     Quaternion r = new Quaternion(0, vecteur.x, vecteur.y, vecteur.z); //Evite la matrice 4-3
-    Quaternion rRot = MultiplyAndGet(MultiplyAndGet(qNormalized, r), qNormalizedConj);     // r rot = qrot, r, qrot*
+    Quaternion rRot = qNormalized.MultiplyAndGet(r).MultiplyAndGet(qNormalizedConj);     // r rot = qrot, r, qrot*
     
     return new Vecteur3D(rRot.i, rRot.j, rRot.k);
 }
   
   
-  Matrix3 GetMatrix3WithQuaternion(Quaternion q){
-    Quaternion qNorm = GetNormalize(q);
+  Matrix3 GetMatrix3WithQuaternion(){
+    Quaternion qNorm = this.GetNormalize();
 
     float r = qNorm.r;
     float i = qNorm.i;
@@ -138,18 +120,17 @@ Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur, Quaternion q) {
     return m;
   }
 
-  Quaternion GetProdScal(Quaternion q1 , Quaternion q2){
-    Quaternion q = new Quaternion(q1.r + q2.r , q1.i + q2.i , q1.j + q2.j , q1.k + q2.k);
-    return q;
+  float GetProdScal(Quaternion q){
+    return r*q.r + i*q.i + j*q.j + k*q.k;
   }
   
-  Quaternion SLerp(Quaternion q0 , Quaternion q1 , float  t){
-    Quaternion dq = MultiplyAndGet(q1 , GetInverse(q0));
+  Quaternion SLerp(Quaternion q , float  t){
+    Quaternion dq = q.MultiplyAndGet(this.GetInverse());
     float alpha = acos(dq.r);
     
     float partieReelle = cos(t * alpha);
     float partieComplexe = sin(t * alpha) / sin(alpha);
-    Quaternion dqt = new Quaternion(partieReelle, partieComplexe, partieComplexe, partieComplexe);
-    return MultiplyAndGet(dqt , q0);
+    Quaternion dqt = new Quaternion(partieReelle, partieComplexe * dq.i, partieComplexe * dq.j, partieComplexe * dq.k);
+    return dqt.MultiplyAndGet(this);
   } 
 }
