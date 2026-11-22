@@ -69,6 +69,11 @@ class Matrix3{
     return new Vecteur3D(c[0]*v.x + c[1]*v.y + c[2]*v.z, c[3]*v.x + c[4]*v.y + c[5]*v.z, c[6]*v.x + c[7]*v.y + c[8]*v.z);
   }
   
+  Vecteur3D vM(Vecteur3D v){
+    float[] c = contenu;
+    return new Vecteur3D(c[0]*v.x + c[3]*v.y + c[6]*v.z, c[1]*v.x + c[4]*v.y + c[7]*v.z, c[2]*v.x + c[5]*v.y + c[8]*v.z);
+  }
+  
 }
 
 class Matrix4{
