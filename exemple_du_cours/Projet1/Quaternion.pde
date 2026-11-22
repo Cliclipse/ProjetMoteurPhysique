@@ -133,4 +133,11 @@ Vecteur3D RotateVecteurAndGet(Vecteur3D vecteur) {
     Quaternion dqt = new Quaternion(partieReelle, partieComplexe * dq.i, partieComplexe * dq.j, partieComplexe * dq.k);
     return dqt.MultiplyAndGet(this);
   } 
+  
+  // q' = q + 1/2 * w * q * dt
+  Quaternion UpdateWithAngularVelocity(Vecteur3D omega, float dt){
+    Quaternion wq = new Quaternion(0, omega.x, omega.y, omega.z).MultiplyAndGet(this);
+    return this.AddAndGet(wq.ScalMultiplyAndGet(0.5 * dt)).GetNormalize();
+  }
+
 }

@@ -74,15 +74,14 @@ class Particule {
   
   void setGlobalPositionWithLocal(){
     if (corpsRigideBelonged == null) return;
-    
-    //Vecteur3D localPositionWithRotation = corpsRigideBelonged.Rotation.RotateVecteurAndGet(LocalPosition);
-    //Position = corpsRigideBelonged.gravityCenter.GetAdd(localPositionWithRotation);
+    Vecteur3D localPositionWithRotation = corpsRigideBelonged.Rotation.RotateVecteurAndGet(LocalPosition);
+    Position = corpsRigideBelonged.gravityCenter.GetAdd(localPositionWithRotation);
   }
   
   void SetLocalPositionWithGlobal(){ //Utilisé à la création d'un Corps Rigide donc prend pas en compte les rotas
        if (corpsRigideBelonged == null) return;
 
-    LocalPosition = Position.GetSubstract(corpsRigideBelonged.GeometricalCenter);
+    LocalPosition = Position.GetSubstract(corpsRigideBelonged.gravityCenter);
   }
   
 }
