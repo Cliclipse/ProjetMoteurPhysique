@@ -2,6 +2,7 @@ void lancerTests(){
   testVecteur3D();
   testMatrix3();
   testMatrix4();
+  testQuaternion();
 }
 
 void testVecteur3D(){
@@ -195,4 +196,131 @@ void testMatrix4(){
     print("test Matrix4 6 echoué \n");
   }
   print(nbEchecs + " test(s) Matrix4 échoué(s)\n");
+}
+
+boolean egalQuat(Quaternion a, Quaternion b){
+  return abs(a.r - b.r) < 0.0001 && abs(a.i - b.i) < 0.0001 && abs(a.j - b.j) < 0.0001 && abs(a.k - b.k) < 0.0001;
+}
+
+void testQuaternion(){
+  int nbEchecs = 0;
+
+  Quaternion a = new Quaternion(1,2,3,4);
+  
+  if(!egalQuat(a.MultiplyAndGet(new Quaternion(5,6,7,8)), new Quaternion(-60,12,30,24)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 0 echoué \n");
+  }
+  
+  if(!egalQuat(new Quaternion(0,1,0,0).MultiplyAndGet(new Quaternion(0,0,1,0)), new Quaternion(0,0,0,1))){ // i * j = k
+    nbEchecs++;
+    print("test Quaternion 1 echoué \n");
+  }
+  if(!egalQuat(new Quaternion(0,0,1,0).MultiplyAndGet(new Quaternion(0,1,0,0)), new Quaternion(0,0,0,-1))){ // j * i = -k
+    nbEchecs++;
+    print("test Quaternion 2 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  if(!egalQuat(a.AddAndGet(new Quaternion(5,6,7,8)), new Quaternion(6,8,10,12)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 3 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  if(!egalQuat(a.SubAndGet(new Quaternion(5,6,7,8)), new Quaternion(-4,-4,-4,-4)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 4 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  if(!egalQuat(a.GetConjugate(), new Quaternion(1,-2,-3,-4)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 5 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  Quaternion a2 = a.ScalMultiplyAndGet(2);
+  if(!egalQuat(a2, new Quaternion(2,4,6,8)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 6 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  a2 = a.ScalDivideAndGet(2);
+  if(!egalQuat(a2, new Quaternion(0.5,1,1.5,2)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 7 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  if(abs(a.GetNorme() - sqrt(30)) > 0.0001 || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 8 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  Quaternion aN = a.GetNormalize();
+  if(abs(aN.GetNorme() - 1) > 0.0001 || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 9 echoué \n");
+  }
+  
+  a = new Quaternion(1,2,3,4);
+  if(!egalQuat(a.MultiplyAndGet(a.GetInverse()), new Quaternion(1,0,0,0)) || !egalQuat(a, new Quaternion(1,2,3,4))){
+    nbEchecs++;
+    print("test Quaternion 10 echoué \n");
+  }
+
+  float c45 = cos(QUARTER_PI);
+  Quaternion rz90 = new Vecteur3D(0,0,1).GetRotationQuaternion(HALF_PI);
+  if(!egalQuat(rz90, new Quaternion(c45, 0, 0, c45))){//cos(45) = sin(45)
+    nbEchecs++;
+    print("test Quaternion 11 echoué \n");
+  }
+  if(abs(new Vecteur3D(0,0,2).GetRotationQuaternion(HALF_PI).GetNorme() - 1) > 0.0001){ // rotation norme 1
+    nbEchecs++;
+    print("test Quaternion 12 echoué \n");
+  }
+  if(!rz90.RotateVecteurAndGet(new Vecteur3D(1,0,0)).Egal(new Vecteur3D(0,1,0))){
+    nbEchecs++;
+    print("test Quaternion 13 echoué \n");
+  }
+  Quaternion q120 = new Quaternion(0.5, 0.5, 0.5, 0.5); // exemple du cours 120°
+  if(!q120.RotateVecteurAndGet(new Vecteur3D(1,0,0)).Egal(new Vecteur3D(0,1,0)) ||
+     !q120.RotateVecteurAndGet(new Vecteur3D(0,1,0)).Egal(new Vecteur3D(0,0,1))){
+    nbEchecs++;
+    print("test Quaternion 14 echoué \n");
+  }
+  if(!rz90.MultiplyAndGet(rz90).RotateVecteurAndGet(new Vecteur3D(1,0,0)).Egal(new Vecteur3D(-1,0,0))){
+    nbEchecs++;
+    print("test Quaternion 15 echoué \n");
+  }
+  Vecteur3D v = new Vecteur3D(0.3, -2, 5);
+  if(!q120.GetMatrix3WithQuaternion().Mv(v).Egal(q120.RotateVecteurAndGet(v))){ //la rotation reste la même
+    nbEchecs++;
+    print("test Quaternion 16 echoué \n");
+  }
+
+
+  rz90 = new Vecteur3D(0,0,1).GetRotationQuaternion(HALF_PI);
+  Quaternion q0 = new Quaternion(1,0,0,0);
+  if(!egalQuat(q0.SLerp(rz90, 0), q0)){
+    nbEchecs++;
+    print("test Quaternion 17 echoué \n");
+  }
+  if(!egalQuat(q0.SLerp(rz90, 1), rz90)){
+    nbEchecs++;
+    print("test Quaternion 18 echoué \n");
+  }
+  if(!egalQuat(q0.SLerp(rz90, 0.5), new Vecteur3D(0,0,1).GetRotationQuaternion(QUARTER_PI))){
+    nbEchecs++;
+    print("test Quaternion 19 echoué \n");
+  }
+
+  if(abs(new Quaternion(1,2,3,4).GetProdScal(new Quaternion(5,6,7,8)) - 70) > 0.0001){
+    nbEchecs++;
+    print("test Quaternion 20 echoué \n");
+  }
+  print(nbEchecs + " test(s) Quaternion échoué(s)\n");
 }

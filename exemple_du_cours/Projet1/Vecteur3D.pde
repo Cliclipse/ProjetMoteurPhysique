@@ -104,4 +104,16 @@ class Vecteur3D {
     this.y = 0;
     this.z = 0;
   }
+  
+  Quaternion GetRotationQuaternion(float theta)
+  {
+    Vecteur3D n = new Vecteur3D(x,y,z);
+    n.Normalised();
+    float arg = theta/2; 
+    float new_r = cos(arg);
+    float new_i = n.x * sin(arg);
+    float new_j = n.y * sin(arg);
+    float new_k = n.z * sin(arg);
+    return new Quaternion(new_r, new_i, new_j, new_k);
+  }
 }
