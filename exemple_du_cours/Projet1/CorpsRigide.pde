@@ -102,17 +102,17 @@ class CorpsRigide{
   //Met à jour l'état du corps rigide à partir des forces et torques appliquées
   //Absolument pas certain que la fct est correcte faut que je vérifie avec le cours
   void Update(float dt){
-    //Vecteur3D alpha = torqueManager.CurrentJ.InvMat().Mv(torqueManager.CurrentTorque);
+    Vecteur3D alpha = torqueManager.CurrentJ.InvMat().vM(torqueManager.CurrentTorque);
     torqueManager.ResetJ();
     torqueManager.ResetTorque();
     forceRegistry.UpdateForces(dt);
-    //Vecteur3D omega = alpha.GetMultiply(dt);
+    Vecteur3D omega = alpha.GetMultiply(dt);
     Vecteur3D newCentreGeo = new Vecteur3D(0,0,0);
     for(int i = 0; i<10; i++){
       ElemDeMasse.get(i).update(dt);
       newCentreGeo.Add(ElemDeMasse.get(i).Position);
-      //ElemDeMasse.get(i).Vitesse.Add(omega.ProdVectoriel(ElemDeMasse.get(i).Position.GetSubstract(gravityCenter)));
-      //torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse.get(i));
+      ElemDeMasse.get(i).Vitesse.Add(omega.ProdVectoriel(ElemDeMasse.get(i).Position.GetSubstract(gravityCenter)));
+      torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse.get(i));
     }    
     newCentreGeo.Substract(ElemDeMasse.get(9).Position);
     newCentreGeo.Substract(ElemDeMasse.get(0).Position);

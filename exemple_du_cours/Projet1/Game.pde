@@ -150,6 +150,9 @@ void draw() {
         break;
       }
    }
+   if(aNettoyer){
+     break;
+   }
   }
   if (essais <= 0 && bullets.size() <= 0) {
     gameOver = true;
