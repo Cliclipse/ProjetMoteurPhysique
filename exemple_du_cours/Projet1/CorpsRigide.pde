@@ -48,26 +48,26 @@ class CorpsRigide{
       ElemDeMasse.add(new Particule(10/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,demiHauteur)),impulse));
     }
     else if(type == 1){
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique, impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique, impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,demiHauteur)),impulse));
     }
     else{
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique, impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
-      ElemDeMasse.add(new Particule(14/(2*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique, impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/mass, CentreGeometrique.GetSubstract(new Vecteur3D(-1*demiLongueur,demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,-1*demiLargeur,demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,-1*demiHauteur)),impulse));
+      ElemDeMasse.add(new Particule(22/(4*mass), CentreGeometrique.GetSubstract(new Vecteur3D(demiLongueur,demiLargeur,demiHauteur)),impulse));
     }
     for(int i = 0; i<9; i++){
       ElemDeMasse.get(i).corpsRigideBelonged = this;
@@ -75,14 +75,15 @@ class CorpsRigide{
       gravityCenter.Add(ElemDeMasse.get(i).Position.GetMultiply(ElemDeMasse.get(i).getMass()));
     torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse.get(i));
     }
-    gravityCenter.Divide(mass);
     if(type == 0){
+      gravityCenter.Divide(mass*9/10);
       ElemDeMasse.add(new Particule(10/mass, gravityCenter, impulse));
       ElemDeMasse.get(9).corpsRigideBelonged = this;
       ElemDeMasse.get(9).SetLocalPositionWithGlobal();
     }
     else{
-      ElemDeMasse.add(new Particule(14/mass, gravityCenter, impulse));
+      gravityCenter.Divide(mass*21/22);
+      ElemDeMasse.add(new Particule(22/mass, gravityCenter, impulse));
       ElemDeMasse.get(9).corpsRigideBelonged = this;
       ElemDeMasse.get(9).SetLocalPositionWithGlobal();
     }
