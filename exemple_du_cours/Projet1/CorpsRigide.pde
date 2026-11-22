@@ -31,6 +31,7 @@ class CorpsRigide{
   
     this.torqueManager= new TorqueManager(); 
     this.GeometricalCenter = CentreGeometrique;
+    print(GeometricalCenter.x);
     gravityCenter = new Vecteur3D(0,0,0);
     //forceManager = new ForceManager();
     //torqueManager = new TorqueManager();
@@ -93,10 +94,10 @@ class CorpsRigide{
     pushMatrix();
     stroke(255, 255 , 255);
     fill(255);
-    translate(GeometricalCenter.x ,GeometricalCenter.y, GeometricalCenter.z);
-    box(50, 50, 50);
     for(int i = 0; i<10; i++){
       ElemDeMasse.get(i).display();
+    translate(GeometricalCenter.x ,GeometricalCenter.y, GeometricalCenter.z);
+    box(Longueur, Largeur, Hauteur);
     }
     popMatrix();
   }

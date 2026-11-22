@@ -145,9 +145,9 @@ void draw() {
         cibleTouchee();
         break;
       }
-      //if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
-      //  bullets.remove(i);
-      //}
+      if (aNettoyer || 0 > p.Position.x || p.Position.x > width || 0 > p.Position.y || p.Position.y > height) {
+        bullets.remove(i);
+      }
    }
   }
   if (essais <= 0 && bullets.size() <= 0) {
