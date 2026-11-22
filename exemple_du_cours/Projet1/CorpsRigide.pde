@@ -5,6 +5,8 @@ class CorpsRigide{
   int nbElemMasse;
   float masseTotale;
   Vecteur3D GeometricalCenter;
+  float theta;
+  Vecteur3D omega;
   
   // Gère l'état de la rota
   Quaternion Rotation;
@@ -21,6 +23,8 @@ class CorpsRigide{
   
   CorpsRigide(Vecteur3D CentreGeometrique , float demiLongueur, float demiLargeur, float demiHauteur, float mass, int type, Vecteur3D impulse)
   {
+    omega = new Vecteur3D(0,0,0);
+    theta = 0;
     forceRegistry = new particuleForceRegistry();
     torqueManager = new TorqueManager();
     ElemDeMasse = new ArrayList<Particule>();
@@ -71,7 +75,7 @@ class CorpsRigide{
       gravityCenter.Add(ElemDeMasse.get(i).Position.GetMultiply(ElemDeMasse.get(i).getMass()));
     torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse.get(i));
     }
-    gravityCenter.Divide(9);
+    gravityCenter.Divide(mass);
     if(type == 0){
       ElemDeMasse.add(new Particule(10/mass, gravityCenter, impulse));
       ElemDeMasse.get(9).corpsRigideBelonged = this;
@@ -95,6 +99,7 @@ class CorpsRigide{
 //      ElemDeMasse.get(i).display();
   //  }
     translate(GeometricalCenter.x ,GeometricalCenter.y, GeometricalCenter.z);
+    rotate(theta);
     box(Longueur, Largeur, Hauteur);
     popMatrix();
   }
@@ -106,12 +111,12 @@ class CorpsRigide{
     torqueManager.ResetJ();
     torqueManager.ResetTorque();
     forceRegistry.UpdateForces(dt);
-    Vecteur3D omega = alpha.GetMultiply(dt);
+    omega.Add(alpha.GetMultiply(dt));
     Vecteur3D newCentreGeo = new Vecteur3D(0,0,0);
     for(int i = 0; i<10; i++){
       ElemDeMasse.get(i).update(dt);
       newCentreGeo.Add(ElemDeMasse.get(i).Position);
-      ElemDeMasse.get(i).Vitesse.Add(omega.ProdVectoriel(ElemDeMasse.get(i).Position.GetSubstract(gravityCenter)));
+      theta += omega.Norme()*dt;
       torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse.get(i));
     }    
     newCentreGeo.Substract(ElemDeMasse.get(9).Position);
