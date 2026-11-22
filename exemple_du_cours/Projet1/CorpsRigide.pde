@@ -101,7 +101,7 @@ class CorpsRigide{
     Vecteur3D omega = alpha.GetMultiply(dt);
     for(int i = 0; i<10; i++){
       ElemDeMasse[i].Vitesse.Add(omega.ProdVectoriel(ElemDeMasse[i].Position.GetSubstract(gravityCenter)));
-    torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse[9]);
+      torqueManager.AddTorqueToAccumulator(this, new Vecteur3D(0,98.1,0),ElemDeMasse[i]);
     }    
   }
   
