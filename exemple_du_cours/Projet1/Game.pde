@@ -44,7 +44,7 @@ void setup() {
 void mousePressed() {
   if (ui.cp5.isMouseOver() || gameOver) return;
   if (mouseButton == LEFT && essais > 0){
-    float coefVitesse = 100 * (4-bulletType);// coef arbitraire * scale
+    float coefVitesse = 150 * (4-bulletType);// coef arbitraire * scale
     Vecteur3D v0 = new Vecteur3D(mouseX,mouseY,0);
     v0.Substract(player.Position);
     v0.Normalised();
