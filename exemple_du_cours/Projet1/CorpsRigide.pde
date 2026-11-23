@@ -102,7 +102,8 @@ class CorpsRigide{
   
   void Display(){
     pushMatrix();
-    stroke(255, 255 , 255);
+    stroke(0);// contours noirs
+    strokeWeight(2);
     fill(255);
     //for(int i = 0; i<10; i++){
 //      ElemDeMasse.get(i).display();
@@ -116,6 +117,14 @@ class CorpsRigide{
                 0,    0,    0,    1);
     box(Longueur, Largeur, Hauteur);
     popMatrix();
+    hint(DISABLE_DEPTH_TEST);
+    pushMatrix();
+    translate(gravityCenter.x, gravityCenter.y, gravityCenter.z);
+    noStroke();
+    fill(ElemDeMasse.get(9).couleur);
+    sphere(4);
+    popMatrix();
+    hint(ENABLE_DEPTH_TEST);
   }
   
   //Met à jour l'état du corps rigide à partir des forces et torques appliquées

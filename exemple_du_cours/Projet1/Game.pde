@@ -131,8 +131,22 @@ void afficherHUD() {
 
 }
 
+void dessinerSol(){
+  pushMatrix();
+  translate(width/2, height, -100);
+  noStroke();
+  fill(color(60,255,60));
+  box(1000000, 10, 1000000);
+  popMatrix();
+}
+
 void draw() {
+  float angle = radians(20);
+  float zCam = height  ;
+  float cx = width/2, cy = height/2; 
+  camera(cx, cy - zCam*sin(angle), zCam*cos(angle), cx, cy, 0, 0, 1, 0);  
   background(102);
+  //dessinerSol();
   if (aNettoyer) {
     aNettoyer = false;
   }
@@ -176,5 +190,8 @@ void draw() {
     aNettoyer = true;
   }
   
+  camera();
+  hint(DISABLE_DEPTH_TEST);
   afficherHUD();
+  hint(ENABLE_DEPTH_TEST);
 }
