@@ -32,7 +32,7 @@ class particuleForceRegistry{
 }
 
 class ParticuleGravity extends ForceManager{
-  Vecteur3D gravity = new Vecteur3D(0, 9.81 * rapportPixelMetre, 0);   // 40 px = 1 m, soit ~390 px/s²
+  Vecteur3D gravity = new Vecteur3D(0, 9.81 * rapportPixelMetre, 0);  
   
   
   void updateforce(Particule particule, float duration){
