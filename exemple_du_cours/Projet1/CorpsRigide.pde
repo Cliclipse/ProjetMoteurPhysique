@@ -103,7 +103,6 @@ class CorpsRigide{
   void Display(){
     pushMatrix();
     stroke(0);// contours noirs
-    strokeWeight(2);
     fill(255);
     //for(int i = 0; i<10; i++){
 //      ElemDeMasse.get(i).display();
