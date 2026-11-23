@@ -1,4 +1,4 @@
-int rapportPixelMetre = 30; // arbitraire
+int rapportPixelMetre = 40; // arbitraire
 
 
 abstract class ForceManager{
